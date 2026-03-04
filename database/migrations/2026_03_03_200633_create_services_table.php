@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('services', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('office_id')->constrained()->onDelete('cascade');
+            $table->foreignId('office_id')->nullable()->constrained()->nullOnDelete();
             $table->string('name');
             $table->text('description')->nullable();
             $table->decimal('fee', 8, 2)->default(0);

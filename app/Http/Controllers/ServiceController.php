@@ -1,66 +1,60 @@
 <?php
-
 namespace App\Http\Controllers;
-
 use App\Models\Service;
 use Illuminate\Http\Request;
-
 class ServiceController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-{
-   $services = \App\Models\Service::all();
-   return view('services.index', compact('services'));
+   public function index()
+   {
+       $services = Service::all();
+       return view('services.index', compact('services'));
+   }
+   public function create()
+   {
+       return view('services.create');
+   }
+   public function store(Request $request)
+   {
+    $request->validate([
+        'name' => 'required',
+        'description' => 'required',
+        'fee' => 'required|numeric'
+    ]);
+    Service::create([
+        'office_id' => auth()->user()->office_id,
+        'name' => $request->name,
+        'description' => $request->description,
+        'fee' => $request->fee,
+        'is_active' => true
+    ]);
+    return redirect()->route('services.index');
+       
 }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-{
-   return view('services.create');
-}
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Service $service)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Service $service)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Service $service)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Service $service)
-    {
-        //
-    }
+      
+   public function edit($id)
+   {
+       $service = Service::findOrFail($id);
+       return view('services.edit', compact('service'));
+   }
+   public function update(Request $request, $id)
+   {
+       $request->validate([
+           'name' => 'required|string|max:255',
+           'description' => 'nullable|string',
+           'fee' => 'nullable|numeric',
+       ]);
+       $service = Service::findOrFail($id);
+       $service->update([
+           'name' => $request->name,
+           'description' => $request->description,
+           'fee' => $request->fee,
+       ]);
+       return redirect()->route('services.index');
+   }
+   public function destroy($id)
+   {
+       $service = Service::findOrFail($id);
+       $service->delete();
+       return redirect()->route('services.index');
+   }
 }
