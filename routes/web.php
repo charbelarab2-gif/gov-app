@@ -4,6 +4,9 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SocialAuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\CitizenRequestController;
+
+Route::post('/requests', [CitizenRequestController::class, 'store'])->name('requests.store');
 
 
 Route::get('/', function () {

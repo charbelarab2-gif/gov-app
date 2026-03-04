@@ -10,4 +10,10 @@ class Service extends Model
        'fee',
        'is_active'
    ];
+
+public function requests()
+{
+   return $this->hasMany(\App\Models\CitizenRequest::class);
+}
+
 }
