@@ -6,7 +6,8 @@ class ServiceController extends Controller
 {
    public function index()
    {
-       $services = Service::all();
+       // Show only services for the logged-in office user
+       $services = Service::where('office_id', auth()->user()->office_id)->get();
        return view('services.index', compact('services'));
    }
    public function create()
@@ -15,25 +16,28 @@ class ServiceController extends Controller
    }
    public function store(Request $request)
    {
-    $request->validate([
-        'name' => 'required',
-        'description' => 'required',
-        'fee' => 'required|numeric'
-    ]);
-    Service::create([
-        'office_id' => auth()->user()->office_id,
-        'name' => $request->name,
-        'description' => $request->description,
-        'fee' => $request->fee,
-        'is_active' => true
-    ]);
-    return redirect()->route('services.index');
-       
-}
-      
+       $request->validate([
+           'name' => 'required|string|max:255',
+           'description' => 'nullable|string',
+           'fee' => 'required|numeric',
+           'duration' => 'nullable|integer|min:0',
+           'required_documents' => 'nullable|string',
+       ]);
+       Service::create([
+           'office_id' => auth()->user()->office_id,
+           'name' => $request->name,
+           'description' => $request->description,
+           'fee' => $request->fee,
+           'duration' => $request->duration,
+           'required_documents' => $request->required_documents,
+           'is_active' => true,
+       ]);
+       return redirect()->route('services.index');
+   }
    public function edit($id)
    {
-       $service = Service::findOrFail($id);
+       // Make sure the service belongs to this office
+       $service = Service::where('office_id', auth()->user()->office_id)->findOrFail($id);
        return view('services.edit', compact('service'));
    }
    public function update(Request $request, $id)
@@ -41,19 +45,23 @@ class ServiceController extends Controller
        $request->validate([
            'name' => 'required|string|max:255',
            'description' => 'nullable|string',
-           'fee' => 'nullable|numeric',
+           'fee' => 'required|numeric',
+           'duration' => 'nullable|integer|min:0',
+           'required_documents' => 'nullable|string',
        ]);
-       $service = Service::findOrFail($id);
+       $service = Service::where('office_id', auth()->user()->office_id)->findOrFail($id);
        $service->update([
            'name' => $request->name,
            'description' => $request->description,
            'fee' => $request->fee,
+           'duration' => $request->duration,
+           'required_documents' => $request->required_documents,
        ]);
        return redirect()->route('services.index');
    }
    public function destroy($id)
    {
-       $service = Service::findOrFail($id);
+       $service = Service::where('office_id', auth()->user()->office_id)->findOrFail($id);
        $service->delete();
        return redirect()->route('services.index');
    }

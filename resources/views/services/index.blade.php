@@ -7,6 +7,8 @@
 <th>Name</th>
 <th>Description</th>
 <th>Fee</th>
+<th>Duration</th>
+<th>Required Documents</th>
 <th>Action</th>
 </tr>
    @forelse($services as $service)
@@ -15,6 +17,8 @@
 <td>{{ $service->name }}</td>
 <td>{{ $service->description }}</td>
 <td>{{ $service->fee }}</td>
+<td>{{ $service->duration }}</td>
+<td>{{ $service->required_documents }}</td>
 <td>
                {{-- Edit --}}
 <a href="{{ route('services.edit', $service->id) }}">Edit</a>

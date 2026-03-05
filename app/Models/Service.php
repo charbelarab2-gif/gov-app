@@ -8,12 +8,12 @@ class Service extends Model
        'name',
        'description',
        'fee',
+       'duration',
+       'required_documents',
        'is_active'
    ];
-
-public function requests()
-{
-   return $this->hasMany(\App\Models\CitizenRequest::class);
-}
-
+   public function requests()
+   {
+       return $this->hasMany(\App\Models\CitizenRequest::class);
+   }
 }
