@@ -10,10 +10,17 @@ class CitizenRequestController extends Controller
            'service_id' => 'required|exists:services,id',
        ]);
        CitizenRequest::create([
-           'user_id' => auth()->id(),
+           'user_id'    => auth()->id(),
            'service_id' => $request->service_id,
-           'status' => 'pending',
+           'status'     => 'pending',
        ]);
        return redirect()->back()->with('success', 'Request Sent');
+   }
+   public function officeIndex()
+   {
+       $requests = CitizenRequest::with(['service', 'user'])
+           ->orderByDesc('id')
+           ->get();
+       return view('office.index', compact('requests'));
    }
 }

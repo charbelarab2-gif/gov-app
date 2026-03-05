@@ -7,7 +7,7 @@ use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\CitizenRequestController;
 
 Route::post('/requests', [CitizenRequestController::class, 'store'])->name('requests.store');
-
+Route::get('/office/requests', [CitizenRequestController::class, 'officeIndex'])->name('office.requests');
 
 Route::get('/', function () {
     return view('welcome');
