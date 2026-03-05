@@ -5,11 +5,18 @@ use App\Http\Controllers\SocialAuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\CitizenRequestController;
+use App\Http\Controllers\OfficeController;
+
 
 Route::post('/requests', [CitizenRequestController::class, 'store'])->name('requests.store');
 Route::get('/office/requests', [CitizenRequestController::class, 'officeIndex'])->name('office.requests');
 Route::post('/requests/{id}/approve', [CitizenRequestController::class, 'approve']);
 Route::post('/requests/{id}/reject', [CitizenRequestController::class, 'reject']);
+Route::get('/office/requests', [OfficeController::class, 'requests'])->name('office.requests');
+Route::post('/office/requests/{id}/status', [OfficeController::class, 'updateRequestStatus'])
+   ->name('office.requests.updateStatus');
+Route::post('/office/requests/{id}/upload', [OfficeController::class, 'uploadResponseDocument'])
+   ->name('office.requests.upload');
 Route::get('/', function () {
     return view('welcome');
 });
@@ -32,6 +39,9 @@ Route::middleware('auth')->group(function () {
  Route::post('/services', [ServiceController::class, 'store'])->name('services.store');
  Route::get('/services/{id}/edit', [ServiceController::class, 'edit'])->name('services.edit');
 Route::put('/services/{id}', [ServiceController::class, 'update'])->name('services.update');
+Route::get('/office/details', [OfficeController::class, 'details']);
+Route::get('/office/details/edit', [OfficeController::class, 'editDetails']);
+Route::post('/office/details', [OfficeController::class, 'updateDetails']);
 });
 
 require __DIR__.'/auth.php';
