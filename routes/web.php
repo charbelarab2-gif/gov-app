@@ -24,6 +24,7 @@ Route::get('/auth/{provider}/callback', [SocialAuthController::class, 'callback'
  
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::delete('/services/{id}', [ServiceController::class, 'destroy'])->name('services.destroy');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get('/services', [ServiceController::class, 'index'])->name('services.index');
