@@ -6,7 +6,7 @@
         <h5>Request #{{ $request->id }}</h5>
     </div>
     <div class="card-body">
-        <p><strong>Status:</strong> {{ $request->status }}</p>
+        <p><strong>Status:</strong> <span id="request-status">{{ $request->status }}</span></p>
 
         @if($request->qr_code_path)
             <div class="mt-3">
@@ -28,11 +28,18 @@
 
 @push('scripts')
 <script>
-    const requestId = {{ $request->id }};
+    document.addEventListener('DOMContentLoaded', function() {
+        const requestId = {{ $request->id }};
 
-    Echo.channel('requests.' + requestId)
-        .listen('RequestStatusUpdated', (e) => {
-            document.querySelector('p strong').nextSibling.textContent = ' ' + e.status;
-        });
+        if (typeof Echo !== 'undefined') {
+            Echo.channel('requests.' + requestId)
+                .listen('.App\\Events\\RequestStatusUpdated', (e) => {
+                    document.getElementById('request-status').innerText = e.status;
+                    console.log('Status updated to: ' + e.status);
+                });
+        } else {
+            console.log('Echo not available');
+        }
+    });
 </script>
 @endpush

@@ -14,21 +14,23 @@ class RequestStatusUpdated implements ShouldBroadcast
 
     public $request;
 
-    /**
-     * Create a new event instance.
-     */
     public function __construct($request)
     {
         $this->request = $request;
     }
 
-    /**
-     * Get the channels the event should broadcast on.
-     */
     public function broadcastOn(): array
     {
         return [
             new Channel('requests.' . $this->request->id),
+        ];
+    }
+
+    public function broadcastWith(): array
+    {
+        return [
+            'status' => $this->request->status,
+            'id'     => $this->request->id,
         ];
     }
 }

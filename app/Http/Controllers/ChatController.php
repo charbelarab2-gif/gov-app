@@ -15,7 +15,7 @@ class ChatController extends Controller
         // Load messages so Blade can loop over them
         $conversation->load('messages');
 
-        return view('chat.index', compact('conversation'));
+        return view('citizen.chat', compact('conversation'));
     }
 
     // Send a new message via AJAX
