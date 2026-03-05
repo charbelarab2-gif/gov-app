@@ -8,7 +8,8 @@ use App\Http\Controllers\CitizenRequestController;
 
 Route::post('/requests', [CitizenRequestController::class, 'store'])->name('requests.store');
 Route::get('/office/requests', [CitizenRequestController::class, 'officeIndex'])->name('office.requests');
-
+Route::post('/requests/{id}/approve', [CitizenRequestController::class, 'approve']);
+Route::post('/requests/{id}/reject', [CitizenRequestController::class, 'reject']);
 Route::get('/', function () {
     return view('welcome');
 });
