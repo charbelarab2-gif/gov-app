@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\CitizenRequestController;
 use App\Http\Controllers\OfficeController;
+use App\Http\Controllers\AppointmentController;
 
 
 Route::post('/requests', [CitizenRequestController::class, 'store'])->name('requests.store');
@@ -42,6 +43,9 @@ Route::put('/services/{id}', [ServiceController::class, 'update'])->name('servic
 Route::get('/office/details', [OfficeController::class, 'details']);
 Route::get('/office/details/edit', [OfficeController::class, 'editDetails']);
 Route::post('/office/details', [OfficeController::class, 'updateDetails']);
+Route::get('/office/appointments', [AppointmentController::class, 'index'])->name('office.appointments');
+Route::post('/office/appointments', [AppointmentController::class, 'store'])->name('office.appointments.store');
+Route::post('/office/appointments/{id}/status', [AppointmentController::class, 'updateStatus'])->name('office.appointments.updateStatus');
 });
 
 require __DIR__.'/auth.php';
