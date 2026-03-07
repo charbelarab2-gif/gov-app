@@ -3,6 +3,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Appointment;
 use App\Models\Service;
+use Illuminate\Support\Facades\Mail;
+use Barryvdh\DomPDF\Facade\Pdf;
 class AppointmentController extends Controller
 {
    public function index()
@@ -29,6 +31,15 @@ class AppointmentController extends Controller
            'status' => 'pending',
            'notes' => $request->notes,
        ]);
+       \Log::info('Email function reached');
+       Mail::raw('Your appointment is confirmed. Please arrive 10 minutes before the scheduled time.', function ($message) {
+
+        $message->to(auth()->user()->email)
+    
+                ->subject('Appointment Confirmation');
+    
+    });
+     
        return redirect()->back()->with('success', 'Appointment created successfully');
    }
    public function updateStatus(Request $request, $id)
@@ -41,4 +52,26 @@ class AppointmentController extends Controller
        $appointment->save();
        return redirect()->back()->with('success', 'Appointment status updated successfully');
    }
+public function generateApprovalPDF($id)
+{
+
+    $appointment = Appointment::findOrFail($id);
+
+    $pdf = Pdf::loadView('pdf.approval', compact('appointment'));
+
+    return $pdf->download('approval.pdf');
+
+}
+public function generateCertificate($id)
+{
+   $appointment = Appointment::findOrFail($id);
+   $pdf = Pdf::loadView('pdf.certificate', compact('appointment'));
+   return $pdf->download('certificate.pdf');
+}
+public function generateReceipt($id)
+{
+   $appointment = Appointment::findOrFail($id);
+   $pdf = Pdf::loadView('pdf.receipt', compact('appointment'));
+   return $pdf->download('receipt.pdf');
+}
 }

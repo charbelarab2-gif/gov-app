@@ -18,6 +18,9 @@ Route::post('/office/requests/{id}/status', [OfficeController::class, 'updateReq
    ->name('office.requests.updateStatus');
 Route::post('/office/requests/{id}/upload', [OfficeController::class, 'uploadResponseDocument'])
    ->name('office.requests.upload');
+ Route::get('/appointment/{id}/pdf', [AppointmentController::class, 'generateApprovalPDF']);
+ Route::get('/appointment/{id}/certificate', [AppointmentController::class,'generateCertificate']);
+Route::get('/appointment/{id}/receipt', [AppointmentController::class,'generateReceipt']);
 Route::get('/', function () {
     return view('welcome');
 });
