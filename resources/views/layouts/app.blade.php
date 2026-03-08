@@ -2,10 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-<<<<<<< HEAD
     <meta name="csrf-token" content="{{ csrf_token() }}">
-=======
->>>>>>> main
     <title>Gov App</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
