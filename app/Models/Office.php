@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Office extends Model
 {
+<<<<<<< HEAD
     protected $fillable = [
         'name',
         'municipality_id',
@@ -16,3 +17,7 @@ class Office extends Model
         return $this->hasMany(Conversation::class);
     }
 }
+=======
+    //
+}
+>>>>>>> main
