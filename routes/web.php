@@ -1,12 +1,19 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SocialAuthController;
+<<<<<<< HEAD
+use App\Http\Controllers\ChatController;
+use App\Http\Controllers\OfficeController;
+use App\Http\Controllers\RequestController;
+=======
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\CitizenRequestController;
 use App\Http\Controllers\OfficeController;
 use App\Http\Controllers\AppointmentController;
+>>>>>>> main
 
 
 Route::post('/requests', [CitizenRequestController::class, 'store'])->name('requests.store');
@@ -29,15 +36,36 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-// Social auth routes - must be outside 'auth' middleware
+// Social auth routes
 Route::get('/auth/{provider}', [SocialAuthController::class, 'redirect']);
 Route::get('/auth/{provider}/callback', [SocialAuthController::class, 'callback']);
+<<<<<<< HEAD
+
+// Protected routes
+=======
  
+>>>>>>> main
 Route::middleware('auth')->group(function () {
+
+    // Map route
+    Route::get('/map', [OfficeController::class, 'map']);
+
+    // Request routes
+    Route::post('/requests', [RequestController::class, 'store'])->name('requests.store');
+    Route::get('/requests/{id}', [RequestController::class, 'show'])->name('requests.show');
+
+    // Chat routes
+    Route::get('/conversations/{conversation}', [ChatController::class, 'index']);
+    Route::post('/conversations/{conversation}/messages', [ChatController::class, 'send']);
+
+    // Profile routes
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::delete('/services/{id}', [ServiceController::class, 'destroy'])->name('services.destroy');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+<<<<<<< HEAD
+
+=======
     Route::get('/services', [ServiceController::class, 'index'])->name('services.index');
  Route::get('/services/create', [ServiceController::class, 'create'])->name('services.create');
  Route::post('/services', [ServiceController::class, 'store'])->name('services.store');
@@ -49,6 +77,7 @@ Route::post('/office/details', [OfficeController::class, 'updateDetails']);
 Route::get('/office/appointments', [AppointmentController::class, 'index'])->name('office.appointments');
 Route::post('/office/appointments', [AppointmentController::class, 'store'])->name('office.appointments.store');
 Route::post('/office/appointments/{id}/status', [AppointmentController::class, 'updateStatus'])->name('office.appointments.updateStatus');
+>>>>>>> main
 });
 
 require __DIR__.'/auth.php';

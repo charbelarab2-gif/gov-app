@@ -2,8 +2,17 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+<<<<<<< HEAD
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+=======
+>>>>>>> main
     <title>Gov App</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </head>
 <body>
     <!-- NAVBAR -->
@@ -20,7 +29,6 @@
             </div>
         </div>
     </nav>
-
     <div class="container-fluid">
         <div class="row">
             <!-- SIDEBAR -->
@@ -33,5 +41,7 @@
             </div>
         </div>
     </div>
+
+    @stack('scripts')
 </body>
 </html>

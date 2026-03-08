@@ -1,4 +1,18 @@
 <?php
+<<<<<<< HEAD
+
+namespace App\Http\Controllers;
+
+use App\Models\Office;
+
+class OfficeController extends Controller
+{
+    public function map()
+    {
+        $offices = Office::all();
+        return view('citizen.map', compact('offices'));
+    }
+=======
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\CitizenRequest;
@@ -67,4 +81,5 @@ class OfficeController extends Controller
        $office->save();
        return redirect('/office/details');
    }
+>>>>>>> main
 }
