@@ -12,14 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('services', function (Blueprint $table) {
-    $table->id();
-    $table->foreignId('office_id')->constrained()->onDelete('cascade');
-    $table->string('name');
-    $table->text('description')->nullable();
-    $table->decimal('fee', 8, 2)->default(0);
-    $table->boolean('is_active')->default(true);
-    $table->timestamps();
-});
+            $table->id();
+            $table->foreignId('office_id')->nullable()->constrained()->nullOnDelete();
+            $table->string('name');
+            $table->text('description')->nullable();
+            $table->decimal('fee', 8, 2)->default(0);
+            $table->boolean('is_active')->default(true);
+            $table->timestamps();
+        });
     }
 
     /**
