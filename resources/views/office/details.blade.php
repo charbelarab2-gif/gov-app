@@ -49,15 +49,9 @@
     <p>
         <a href="{{ $office->google_maps_url }}" target="_blank" rel="noopener noreferrer">Open Google Maps</a>
     </p>
-    <iframe
-        src="{{ str_contains($office->google_maps_url, 'output=embed') ? $office->google_maps_url : $office->google_maps_url . (str_contains($office->google_maps_url, '?') ? '&' : '?') . 'output=embed' }}"
-        width="100%"
-        height="350"
-        style="border:0;"
-        allowfullscreen
-        loading="lazy">
-    </iframe>
-@elseif ($office->address)
+@endif
+
+@if ($office->address)
     <iframe
         src="https://www.google.com/maps?q={{ urlencode($office->address) }}&z=15&output=embed"
         width="100%"
@@ -67,5 +61,5 @@
         loading="lazy">
     </iframe>
 @else
-    <p>Add a Google Maps link or address to preview the office location.</p>
+    <p>Add an address to preview the office location, and optionally a Google Maps link to open it directly.</p>
 @endif
