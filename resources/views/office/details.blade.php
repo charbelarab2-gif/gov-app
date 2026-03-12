@@ -32,12 +32,6 @@
     <label>Google Maps Link</label><br>
     <input type="url" name="google_maps_url" value="{{ old('google_maps_url', $office->google_maps_url) }}"><br><br>
 
-    <label>Latitude</label><br>
-    <input type="text" name="latitude" value="{{ old('latitude', $office->latitude) }}"><br><br>
-
-    <label>Longitude</label><br>
-    <input type="text" name="longitude" value="{{ old('longitude', $office->longitude) }}"><br><br>
-
     <label>Working Hours</label><br>
     <input type="text" name="working_hours" value="{{ old('working_hours', $office->working_hours) }}"><br><br>
 
@@ -55,11 +49,8 @@
     <p>
         <a href="{{ $office->google_maps_url }}" target="_blank" rel="noopener noreferrer">Open Google Maps</a>
     </p>
-@endif
-
-@if ($office->latitude && $office->longitude)
     <iframe
-        src="https://www.google.com/maps?q={{ $office->latitude }},{{ $office->longitude }}&z=15&output=embed"
+        src="{{ str_contains($office->google_maps_url, 'output=embed') ? $office->google_maps_url : $office->google_maps_url . (str_contains($office->google_maps_url, '?') ? '&' : '?') . 'output=embed' }}"
         width="100%"
         height="350"
         style="border:0;"
@@ -76,5 +67,5 @@
         loading="lazy">
     </iframe>
 @else
-    <p>Add an address or coordinates to preview the office location on Google Maps.</p>
+    <p>Add a Google Maps link or address to preview the office location.</p>
 @endif

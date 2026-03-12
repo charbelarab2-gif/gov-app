@@ -73,8 +73,6 @@ class OfficeController extends Controller
             'phone' => 'nullable|string|max:255',
             'address' => 'nullable|string|max:255',
             'google_maps_url' => 'nullable|url|max:2048',
-            'latitude' => 'nullable|numeric|between:-90,90',
-            'longitude' => 'nullable|numeric|between:-180,180',
             'working_hours' => 'nullable|string|max:255',
             'contact_info' => 'nullable|string|max:255',
         ]);
