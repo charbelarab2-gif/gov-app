@@ -73,7 +73,7 @@ return [
     |
     */
 
-    'home' => '/home',
+    'home' => '/dashboard',
 
     /*
     |--------------------------------------------------------------------------
@@ -146,7 +146,7 @@ return [
     'features' => [
     Features::twoFactorAuthentication([
         'confirm' => true,
-        'confirmPassword' => true,
+        'confirmPassword' => false,
     ]),
 ],
 

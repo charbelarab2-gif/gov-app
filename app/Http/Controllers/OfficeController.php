@@ -2,74 +2,109 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\CitizenRequest;
 use App\Models\Office;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class OfficeController extends Controller
 {
-    public function map()
+    public function map(): View
     {
-        $offices = Office::all();
-        return view('citizen.map', compact('offices'));
+        return view('citizen.map');
     }
 
-    public function requests()
+    public function requests(): View
     {
-        $requests = CitizenRequest::with(['user', 'service'])->get();
+        $requests = CitizenRequest::with(['user', 'service'])
+            ->whereHas('service', function ($query) {
+                $query->where('office_id', $this->currentOffice()->id);
+            })
+            ->orderByDesc('id')
+            ->get();
+
         return view('office.requests', compact('requests'));
     }
 
-    public function updateRequestStatus(Request $request, $id)
+    public function updateRequestStatus(Request $request, int $id): RedirectResponse
     {
-        $request->validate([
-            'status' => 'required'
+        $validated = $request->validate([
+            'status' => 'required|in:pending,in_review,missing_documents,approved,rejected,completed',
         ]);
-        $citizenRequest = CitizenRequest::findOrFail($id);
-        $citizenRequest->status = $request->status;
+
+        $citizenRequest = $this->requestForCurrentOffice($id);
+        $citizenRequest->status = $validated['status'];
         $citizenRequest->save();
-        return redirect()->back();
+
+        return redirect()->back()->with('success', 'Request status updated successfully.');
     }
 
-    public function uploadResponseDocument(Request $request, $id)
+    public function uploadResponseDocument(Request $request, int $id): RedirectResponse
     {
         $request->validate([
-            'response_document' => 'required|file|mimes:pdf,jpg,jpeg,png|max:5120'
+            'response_document' => 'required|file|mimes:pdf,jpg,jpeg,png|max:5120',
         ]);
-        $citizenRequest = CitizenRequest::findOrFail($id);
+
+        $citizenRequest = $this->requestForCurrentOffice($id);
         $file = $request->file('response_document');
         $filename = time() . '_' . $file->getClientOriginalName();
         $file->storeAs('public/responses', $filename);
         $citizenRequest->response_document = $filename;
         $citizenRequest->save();
+
         return redirect()->back()->with('success', 'Response uploaded');
     }
 
-    public function details()
+    public function details(): View
     {
-        $office = Office::first();
+        $office = $this->currentOffice();
+
         return view('office.details', compact('office'));
     }
 
-    public function editDetails()
+    public function editDetails(): View
     {
-        $office = Office::first();
-        return view('office.edit', compact('office'));
+        $office = $this->currentOffice();
+
+        return view('office.details', compact('office'));
     }
 
-    public function updateDetails(Request $request)
+    public function updateDetails(Request $request): RedirectResponse
     {
-        $office = Office::first();
-        $office->name = $request->name;
-        $office->email = $request->email;
-        $office->phone = $request->phone;
-        $office->address = $request->address;
-        $office->latitude = $request->latitude;
-        $office->longitude = $request->longitude;
-        $office->working_hours = $request->working_hours;
-        $office->contact_info = $request->contact_info;
-        $office->save();
-        return redirect('/office/details');
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'phone' => 'nullable|string|max:255',
+            'address' => 'nullable|string|max:255',
+            'google_maps_url' => 'nullable|url|max:2048',
+            'working_hours' => 'nullable|string|max:255',
+            'contact_info' => 'nullable|string|max:255',
+        ]);
+
+        $office = $this->currentOffice();
+        $office->update($validated);
+
+        return redirect('/office/details')->with('success', 'Office details updated successfully.');
+    }
+
+    private function currentOffice(): Office
+    {
+        $user = auth()->user();
+        $officeId = $user?->office_id;
+
+        abort_unless($user && $user->role === 'office', 403, 'Only office users can access this area.');
+        abort_unless($officeId, 403, 'Your account is not linked to an office.');
+
+        return Office::findOrFail($officeId);
+    }
+
+    private function requestForCurrentOffice(int $id): CitizenRequest
+    {
+        return CitizenRequest::with(['user', 'service'])
+            ->whereHas('service', function ($query) {
+                $query->where('office_id', $this->currentOffice()->id);
+            })
+            ->findOrFail($id);
     }
 }

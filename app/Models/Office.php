@@ -3,23 +3,41 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Office extends Model
 {
     protected $fillable = [
-        'name',
         'municipality_id',
+        'name',
         'email',
         'phone',
         'address',
+        'google_maps_url',
         'latitude',
         'longitude',
         'working_hours',
         'contact_info',
+        'is_active',
     ];
 
-    public function conversations()
+    public function conversations(): HasMany
     {
         return $this->hasMany(Conversation::class);
+    }
+
+    public function services(): HasMany
+    {
+        return $this->hasMany(Service::class);
+    }
+
+    public function serviceCategories(): HasMany
+    {
+        return $this->hasMany(ServiceCategory::class);
+    }
+
+    public function appointments(): HasMany
+    {
+        return $this->hasMany(Appointment::class);
     }
 }

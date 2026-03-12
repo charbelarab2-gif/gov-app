@@ -19,7 +19,10 @@
             <div class="ms-auto">
                 @auth
                     <span class="text-white me-3">{{ auth()->user()->name }}</span>
-                    <a href="/logout" class="btn btn-outline-light btn-sm">Logout</a>
+                    <form method="POST" action="{{ route('logout') }}" style="display:inline;">
+                        @csrf
+                        <button type="submit" class="btn btn-outline-light btn-sm">Logout</button>
+                    </form>
                 @else
                     <a href="/login" class="btn btn-outline-light btn-sm">Login</a>
                 @endauth
@@ -34,7 +37,17 @@
             </div>
             <!-- MAIN CONTENT -->
             <div class="col-md-10 p-4">
-                @yield('content')
+                @isset($header)
+                    <div class="mb-4">
+                        {{ $header }}
+                    </div>
+                @endisset
+
+                @hasSection('content')
+                    @yield('content')
+                @else
+                    {{ $slot ?? '' }}
+                @endif
             </div>
         </div>
     </div>
