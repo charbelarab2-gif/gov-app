@@ -11,6 +11,5 @@
         <li class="nav-item"><a class="nav-link" href="/profile">Profile / 2FA</a></li>
     @else
         <li class="nav-item"><a class="nav-link" href="/dashboard">My Requests</a></li>
-        <li class="nav-item"><a class="nav-link" href="/services">Services</a></li>
     @endif
 </ul>

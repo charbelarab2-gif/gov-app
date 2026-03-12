@@ -74,8 +74,10 @@ class ServiceCategoryController extends Controller
 
     private function currentOfficeId(): int
     {
-        $officeId = auth()->user()?->office_id;
+        $user = auth()->user();
+        $officeId = $user?->office_id;
 
+        abort_unless($user && $user->role === 'office', 403, 'Only office users can access this area.');
         abort_unless($officeId, 403, 'Your account is not linked to an office.');
 
         return (int) $officeId;

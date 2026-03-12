@@ -33,11 +33,6 @@
             <td>{{ $service->required_documents }}</td>
             <td>
                 <a href="{{ route('services.edit', $service->id) }}">Edit</a>
-                <form action="{{ route('requests.store') }}" method="POST" style="display:inline;">
-                    @csrf
-                    <input type="hidden" name="service_id" value="{{ $service->id }}">
-                    <button type="submit">Request</button>
-                </form>
                 <form action="{{ route('services.destroy', $service->id) }}" method="POST" style="display:inline;">
                     @csrf
                     @method('DELETE')
