@@ -11,7 +11,6 @@ use App\Http\Controllers\AppointmentController;
 
 
 Route::post('/requests', [CitizenRequestController::class, 'store'])->name('requests.store');
-Route::get('/office/requests', [CitizenRequestController::class, 'officeIndex'])->name('office.requests');
 Route::post('/requests/{id}/approve', [CitizenRequestController::class, 'approve']);
 Route::post('/requests/{id}/reject', [CitizenRequestController::class, 'reject']);
 Route::get('/office/requests', [OfficeController::class, 'requests'])->name('office.requests');

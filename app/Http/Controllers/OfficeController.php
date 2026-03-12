@@ -12,22 +12,27 @@ class OfficeController extends Controller
 {
     public function requests(): View
     {
-        $requests = CitizenRequest::with(['user', 'service'])->get();
+        $requests = CitizenRequest::with(['user', 'service'])
+            ->whereHas('service', function ($query) {
+                $query->where('office_id', $this->currentOffice()->id);
+            })
+            ->orderByDesc('id')
+            ->get();
 
         return view('office.requests', compact('requests'));
     }
 
     public function updateRequestStatus(Request $request, int $id): RedirectResponse
     {
-        $request->validate([
-            'status' => 'required',
+        $validated = $request->validate([
+            'status' => 'required|in:pending,in_review,missing_documents,approved,rejected,completed',
         ]);
 
-        $citizenRequest = CitizenRequest::findOrFail($id);
-        $citizenRequest->status = $request->status;
+        $citizenRequest = $this->requestForCurrentOffice($id);
+        $citizenRequest->status = $validated['status'];
         $citizenRequest->save();
 
-        return redirect()->back();
+        return redirect()->back()->with('success', 'Request status updated successfully.');
     }
 
     public function uploadResponseDocument(Request $request, int $id): RedirectResponse
@@ -36,7 +41,7 @@ class OfficeController extends Controller
             'response_document' => 'required|file|mimes:pdf,jpg,jpeg,png|max:5120',
         ]);
 
-        $citizenRequest = CitizenRequest::findOrFail($id);
+        $citizenRequest = $this->requestForCurrentOffice($id);
         $file = $request->file('response_document');
         $filename = time() . '_' . $file->getClientOriginalName();
         $file->storeAs('public/responses', $filename);
@@ -57,7 +62,7 @@ class OfficeController extends Controller
     {
         $office = $this->currentOffice();
 
-        return view('office.edit', compact('office'));
+        return view('office.details', compact('office'));
     }
 
     public function updateDetails(Request $request): RedirectResponse
@@ -87,5 +92,14 @@ class OfficeController extends Controller
         abort_unless($officeId, 403, 'Your account is not linked to an office.');
 
         return Office::findOrFail($officeId);
+    }
+
+    private function requestForCurrentOffice(int $id): CitizenRequest
+    {
+        return CitizenRequest::with(['user', 'service'])
+            ->whereHas('service', function ($query) {
+                $query->where('office_id', $this->currentOffice()->id);
+            })
+            ->findOrFail($id);
     }
 }
