@@ -2,7 +2,6 @@
 
 <h1>Office Dashboard</h1>
 
-<p>Use the links below to test all `Member 2` office features directly from the frontend.</p>
 
 <ul>
     <li><a href="{{ url('/office/details') }}">Office Details and Google Maps</a></li>

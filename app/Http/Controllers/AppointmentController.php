@@ -130,7 +130,7 @@ class AppointmentController extends Controller
 
     private function appointmentForCurrentOffice(int $id): Appointment
     {
-        return Appointment::with(['service', 'user'])
+        return Appointment::with(['service', 'user', 'office'])
             ->where('office_id', $this->currentOfficeId())
             ->findOrFail($id);
     }
