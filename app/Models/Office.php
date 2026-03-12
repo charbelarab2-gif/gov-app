@@ -13,6 +13,7 @@ class Office extends Model
         'email',
         'phone',
         'address',
+        'google_maps_url',
         'latitude',
         'longitude',
         'working_hours',
