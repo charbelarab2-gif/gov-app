@@ -23,6 +23,10 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
+    if (auth()->check() && auth()->user()->role === 'office') {
+        return redirect('/office');
+    }
+
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
@@ -31,6 +35,9 @@ Route::get('/auth/{provider}', [SocialAuthController::class, 'redirect']);
 Route::get('/auth/{provider}/callback', [SocialAuthController::class, 'callback']);
  
 Route::middleware('auth')->group(function () {
+    Route::get('/office', function () {
+        return view('office.dashboard');
+    })->name('office.dashboard');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::delete('/services/{id}', [ServiceController::class, 'destroy'])->name('services.destroy');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

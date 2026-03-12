@@ -1,3 +1,5 @@
+@include('office.partials.nav')
+
 <h1>Edit Category</h1>
 
 @if ($errors->any())

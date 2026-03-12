@@ -1,3 +1,5 @@
+@include('office.partials.nav')
+
 <h1>Appointments</h1>
 
 @if (session('success'))
