@@ -10,6 +10,7 @@ class Service extends Model
 {
     protected $fillable = [
         'office_id',
+        'service_category_id',
         'name',
         'description',
         'fee',
@@ -21,6 +22,11 @@ class Service extends Model
     public function office(): BelongsTo
     {
         return $this->belongsTo(Office::class);
+    }
+
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(ServiceCategory::class, 'service_category_id');
     }
 
     public function requests(): HasMany
