@@ -3,11 +3,19 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Routing\Pipeline;
 use Illuminate\View\View;
+use Laravel\Fortify\Actions\AttemptToAuthenticate;
+use Laravel\Fortify\Actions\CanonicalizeUsername;
+use Laravel\Fortify\Actions\EnsureLoginIsNotThrottled;
+use Laravel\Fortify\Actions\PrepareAuthenticatedSession;
+use Laravel\Fortify\Contracts\RedirectsIfTwoFactorAuthenticatable;
+use Laravel\Fortify\Features;
+use Laravel\Fortify\Fortify;
+use Laravel\Fortify\Http\Requests\LoginRequest;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -22,13 +30,11 @@ class AuthenticatedSessionController extends Controller
     /**
      * Handle an incoming authentication request.
      */
-    public function store(LoginRequest $request): RedirectResponse
+    public function store(LoginRequest $request)
     {
-        $request->authenticate();
-
-        $request->session()->regenerate();
-
-        return redirect()->intended(route('dashboard', absolute: false));
+        return $this->loginPipeline($request)->then(function () {
+            return redirect()->intended(route('dashboard', absolute: false));
+        });
     }
 
     /**
@@ -43,5 +49,28 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerateToken();
 
         return redirect('/');
+    }
+
+    protected function loginPipeline(LoginRequest $request): Pipeline
+    {
+        if (Fortify::$authenticateThroughCallback) {
+            return (new Pipeline(app()))->send($request)->through(array_filter(
+                call_user_func(Fortify::$authenticateThroughCallback, $request)
+            ));
+        }
+
+        if (is_array(config('fortify.pipelines.login'))) {
+            return (new Pipeline(app()))->send($request)->through(array_filter(
+                config('fortify.pipelines.login')
+            ));
+        }
+
+        return (new Pipeline(app()))->send($request)->through(array_filter([
+            config('fortify.limiters.login') ? null : EnsureLoginIsNotThrottled::class,
+            config('fortify.lowercase_usernames') ? CanonicalizeUsername::class : null,
+            Features::enabled(Features::twoFactorAuthentication()) ? RedirectsIfTwoFactorAuthenticatable::class : null,
+            AttemptToAuthenticate::class,
+            PrepareAuthenticatedSession::class,
+        ]));
     }
 }
