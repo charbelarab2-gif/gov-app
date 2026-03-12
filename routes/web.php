@@ -52,6 +52,7 @@ Route::post('/office/details', [OfficeController::class, 'updateDetails']);
 Route::get('/office/appointments', [AppointmentController::class, 'index'])->name('office.appointments');
 Route::post('/office/appointments', [AppointmentController::class, 'store'])->name('office.appointments.store');
 Route::post('/office/appointments/{id}/status', [AppointmentController::class, 'updateStatus'])->name('office.appointments.updateStatus');
+Route::post('/office/appointments/{id}/email-reminder', [AppointmentController::class, 'sendEmailReminder'])->name('office.appointments.emailReminder');
 Route::get('/office/appointments/{id}/approval-pdf', [AppointmentController::class, 'generateApprovalPDF'])->name('office.appointments.approval');
 Route::get('/office/appointments/{id}/certificate-pdf', [AppointmentController::class, 'generateCertificate'])->name('office.appointments.certificate');
 Route::get('/office/appointments/{id}/receipt-pdf', [AppointmentController::class, 'generateReceipt'])->name('office.appointments.receipt');

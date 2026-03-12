@@ -33,6 +33,18 @@
         </select>
         <br><br>
 
+        <label>Citizen Name</label><br>
+        <input type="text" name="citizen_name" value="{{ old('citizen_name') }}" required>
+        <br><br>
+
+        <label>Citizen Email</label><br>
+        <input type="email" name="citizen_email" value="{{ old('citizen_email') }}" required>
+        <br><br>
+
+        <label>Citizen Phone</label><br>
+        <input type="text" name="citizen_phone" value="{{ old('citizen_phone') }}">
+        <br><br>
+
         <label>Appointment Date</label><br>
         <input type="date" name="appointment_date" value="{{ old('appointment_date') }}" required>
         <br><br>
@@ -63,9 +75,11 @@
         <th>Service</th>
         <th>Date</th>
         <th>Time</th>
+        <th>Citizen</th>
         <th>Status</th>
         <th>Notes</th>
         <th>Update Status</th>
+        <th>Email Reminder</th>
         <th>Documents</th>
     </tr>
 
@@ -75,6 +89,11 @@
             <td>{{ $appointment->service->name ?? 'N/A' }}</td>
             <td>{{ optional($appointment->appointment_date)->format('Y-m-d') ?? 'N/A' }}</td>
             <td>{{ $appointment->appointment_time ?? 'N/A' }}</td>
+            <td>
+                <div>{{ $appointment->citizen_name ?: ($appointment->user->name ?? 'N/A') }}</div>
+                <div>{{ $appointment->citizen_email ?: ($appointment->user->email ?? 'No email') }}</div>
+                <div>{{ $appointment->citizen_phone ?: ($appointment->user->phone ?? 'No phone') }}</div>
+            </td>
             <td>{{ ucfirst($appointment->status) }}</td>
             <td>{{ $appointment->notes ?: 'N/A' }}</td>
             <td>
@@ -91,6 +110,18 @@
                 </form>
             </td>
             <td>
+                <form method="POST" action="{{ route('office.appointments.emailReminder', $appointment->id) }}" style="display:inline;">
+                    @csrf
+                    <button type="submit" @disabled(! $appointment->citizen_email && ! $appointment->user?->email)>
+                        Send Email
+                    </button>
+                </form>
+                <div>
+                    Email:
+                    {{ optional($appointment->email_reminder_sent_at)->format('Y-m-d H:i') ?? 'Not sent' }}
+                </div>
+            </td>
+            <td>
                 <a href="{{ route('office.appointments.approval', $appointment->id) }}">Approval</a>
                 <a href="{{ route('office.appointments.certificate', $appointment->id) }}">Certificate</a>
                 <a href="{{ route('office.appointments.receipt', $appointment->id) }}">Receipt</a>
@@ -98,7 +129,7 @@
         </tr>
     @empty
         <tr>
-            <td colspan="8">No appointments found for this office.</td>
+            <td colspan="10">No appointments found for this office.</td>
         </tr>
     @endforelse
 </table>

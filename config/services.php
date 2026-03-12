@@ -25,6 +25,12 @@ return [
     'redirect' => env('FACEBOOK_REDIRECT_URL'),
 ],
 
+    'sms' => [
+        'gateway_url' => env('SMS_GATEWAY_URL'),
+        'token' => env('SMS_GATEWAY_TOKEN'),
+        'sender' => env('SMS_SENDER', 'GovApp'),
+    ],
+
     'postmark' => [
         'key' => env('POSTMARK_API_KEY'),
     ],
