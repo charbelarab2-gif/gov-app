@@ -1,3 +1,9 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
 
 class SocialAuthController extends Controller
@@ -6,7 +12,8 @@ class SocialAuthController extends Controller
         return Socialite::driver($provider)->redirect();
     }
 
-    public function callback($provider) {
+    public function callback($provider)
+    {
         $socialUser = Socialite::driver($provider)->user();
 
         $user = User::updateOrCreate(
@@ -18,7 +25,8 @@ class SocialAuthController extends Controller
             ]
         );
 
-        auth()->login($user);
+        Auth::login($user);
+
         return redirect('/dashboard');
     }
 }

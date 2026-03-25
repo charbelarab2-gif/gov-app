@@ -11,13 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('services', function (Blueprint $table) {
+        Schema::create('conversations', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('office_id')->nullable()->constrained()->nullOnDelete();
-            $table->string('name');
-            $table->text('description')->nullable();
-            $table->decimal('fee', 8, 2)->default(0);
-            $table->boolean('is_active')->default(true);
+            $table->foreignId('citizen_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('office_id')->constrained('offices')->onDelete('cascade');
+            $table->foreignId('request_id')->nullable()->constrained('requests')->onDelete('set null');
             $table->timestamps();
         });
     }
@@ -27,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('services');
+        Schema::dropIfExists('conversations');
     }
 };

@@ -22,6 +22,12 @@ class Office extends Model
         'is_active',
     ];
 // Office has many service
+
+    public function conversations(): HasMany
+    {
+        return $this->hasMany(Conversation::class);
+    }
+
     public function services(): HasMany
     {
         return $this->hasMany(Service::class);

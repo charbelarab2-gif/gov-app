@@ -11,6 +11,11 @@ use Illuminate\View\View;
 class OfficeController extends Controller
 {
     // Show all citizen requests for this office
+    public function map(): View
+    {
+        return view('citizen.map');
+    }
+
     public function requests(): View
     {
         $requests = CitizenRequest::with(['user', 'service'])
