@@ -3,8 +3,10 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\Municipality;
 use App\Models\Office;
+// Seeder to create default municipality and office
 class DevSeeder extends Seeder
 {
+    // Create default municipality and office
    public function run(): void
    {
        $municipality = Municipality::firstOrCreate(

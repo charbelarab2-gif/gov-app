@@ -9,6 +9,7 @@ use Illuminate\View\View;
 
 class ServiceCategoryController extends Controller
 {
+    // Show all services categories
     public function index(): View
     {
         $categories = ServiceCategory::where('office_id', $this->currentOfficeId())
@@ -17,7 +18,7 @@ class ServiceCategoryController extends Controller
 
         return view('service-categories.index', compact('categories'));
     }
-
+// Create new service category
     public function store(Request $request): RedirectResponse
     {
         $validated = $request->validate([
@@ -33,14 +34,14 @@ class ServiceCategoryController extends Controller
             ->route('service-categories.index')
             ->with('success', 'Category created successfully.');
     }
-
+// Show edit category page
     public function edit(int $id): View
     {
         $category = $this->categoryForCurrentOffice($id);
 
         return view('service-categories.edit', compact('category'));
     }
-
+//  Update category name
     public function update(Request $request, int $id): RedirectResponse
     {
         $validated = $request->validate([
@@ -56,7 +57,7 @@ class ServiceCategoryController extends Controller
             ->route('service-categories.index')
             ->with('success', 'Category updated successfully.');
     }
-
+// Delete category
     public function destroy(int $id): RedirectResponse
     {
         $category = $this->categoryForCurrentOffice($id);
@@ -66,7 +67,7 @@ class ServiceCategoryController extends Controller
             ->route('service-categories.index')
             ->with('success', 'Category deleted successfully.');
     }
-
+// Get category for this office only
     private function categoryForCurrentOffice(int $id): ServiceCategory
     {
         return ServiceCategory::where('office_id', $this->currentOfficeId())->findOrFail($id);

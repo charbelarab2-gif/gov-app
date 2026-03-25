@@ -10,6 +10,7 @@ use Illuminate\View\View;
 
 class ServiceController extends Controller
 {
+    // Show all services
     public function index(): View
     {
         $services = Service::with('category')
@@ -19,14 +20,14 @@ class ServiceController extends Controller
 
         return view('services.index', compact('services'));
     }
-
+// Show create service page
     public function create(): View
     {
         $categories = $this->categoriesForCurrentOffice();
 
         return view('services.create', compact('categories'));
     }
-
+// Store new service
     public function store(Request $request): RedirectResponse
     {
         $validated = $request->validate([
@@ -55,7 +56,7 @@ class ServiceController extends Controller
             ->route('services.index')
             ->with('success', 'Service created successfully.');
     }
-
+// Show edit service page
     public function edit(int $id): View
     {
         $service = Service::where('office_id', $this->currentOfficeId())->findOrFail($id);
@@ -63,7 +64,7 @@ class ServiceController extends Controller
 
         return view('services.edit', compact('service', 'categories'));
     }
-
+// Update service
     public function update(Request $request, int $id): RedirectResponse
     {
         $validated = $request->validate([
@@ -91,7 +92,7 @@ class ServiceController extends Controller
             ->route('services.index')
             ->with('success', 'Service updated successfully.');
     }
-
+// Delete service
     public function destroy(int $id): RedirectResponse
     {
         $service = Service::where('office_id', $this->currentOfficeId())->findOrFail($id);
@@ -101,19 +102,19 @@ class ServiceController extends Controller
             ->route('services.index')
             ->with('success', 'Service deleted successfully.');
     }
-
+// Get categories for this office
     private function categoriesForCurrentOffice()
     {
         return ServiceCategory::where('office_id', $this->currentOfficeId())
             ->orderBy('name')
             ->get();
     }
-
+// Get category for this office only
     private function categoryForCurrentOffice(int $id): ServiceCategory
     {
         return ServiceCategory::where('office_id', $this->currentOfficeId())->findOrFail($id);
     }
-
+// Get current office id
     private function currentOfficeId(): int
     {
         $user = auth()->user();

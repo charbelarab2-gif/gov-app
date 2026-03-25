@@ -1,11 +1,13 @@
+<!-- Manage office appointments including scheduling, updating status, sending emails, and generating documents -->
+<!-- Include office navigation menu -->
 @include('office.partials.nav')
 
 <h1>Appointments</h1>
-
+<!-- Display success message after operations -->
 @if (session('success'))
     <p style="color: green;">{{ session('success') }}</p>
 @endif
-
+<!-- Display validation error messages -->
 @if ($errors->any())
     <div style="color: red;">
         <ul>
@@ -15,15 +17,16 @@
         </ul>
     </div>
 @endif
-
+<!-- Appointment scheduling form -->
 <h2>Schedule Appointment</h2>
 
 @if ($services->isEmpty())
     <p>Add at least one service before scheduling appointments.</p>
 @else
+<!-- Form to create new appointment -->
     <form method="POST" action="{{ route('office.appointments.store') }}">
         @csrf
-
+<!-- Select service for appointment -->
         <label>Service</label><br>
         <select name="service_id" required>
             <option value="">Select Service</option>
@@ -34,7 +37,7 @@
             @endforeach
         </select>
         <br><br>
-
+<!-- Citizen information fields -->
         <label>Citizen Name</label><br>
         <input type="text" name="citizen_name" value="{{ old('citizen_name') }}" required>
         <br><br>
@@ -50,7 +53,7 @@
         <label>Appointment Date</label><br>
         <input type="date" name="appointment_date" value="{{ old('appointment_date') }}" required>
         <br><br>
-
+<!-- Select available appointment time -->
         <label>Appointment Time</label><br>
         <select name="appointment_time" required>
             @foreach (['09:00:00' => '09:00 AM', '10:00:00' => '10:00 AM', '11:00:00' => '11:00 AM'] as $value => $label)
@@ -68,7 +71,7 @@
 @endif
 
 <hr>
-
+<!-- Display all scheduled appointments -->
 <h2>All Appointments</h2>
 
 <table border="1" cellpadding="8">
@@ -84,7 +87,7 @@
         <th>Email Reminder</th>
         <th>Documents</th>
     </tr>
-
+<!-- Loop through appointments list -->
     @forelse ($appointments as $appointment)
         <tr>
             <td>{{ $appointment->id }}</td>
@@ -99,6 +102,7 @@
             <td>{{ ucfirst($appointment->status) }}</td>
             <td>{{ $appointment->notes ?: 'N/A' }}</td>
             <td>
+                <!-- Update appointment status -->
                 <form method="POST" action="{{ route('office.appointments.updateStatus', $appointment->id) }}">
                     @csrf
                     <select name="status">
@@ -112,6 +116,7 @@
                 </form>
             </td>
             <td>
+                <!-- Send email reminder to citizen -->
                 <form method="POST" action="{{ route('office.appointments.emailReminder', $appointment->id) }}" style="display:inline;">
                     @csrf
                     <button type="submit" @disabled(! $appointment->citizen_email && ! $appointment->user?->email)>
@@ -124,6 +129,7 @@
                 </div>
             </td>
             <td>
+                <!-- Generate related documents -->
                 <a href="{{ route('office.appointments.approval', $appointment->id) }}">Approval</a>
                 <a href="{{ route('office.appointments.certificate', $appointment->id) }}">Certificate</a>
                 <a href="{{ route('office.appointments.receipt', $appointment->id) }}">Receipt</a>

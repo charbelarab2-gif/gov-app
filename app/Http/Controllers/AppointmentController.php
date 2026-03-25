@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\View\View;
 class AppointmentController extends Controller
 {
+    // View all appointments for this office
    public function index(): View
    {
        $officeId = $this->currentOfficeId();
@@ -22,6 +23,7 @@ class AppointmentController extends Controller
            ->get();
        return view('office.appointments', compact('appointments', 'services'));
    }
+   // Add new appointment
    public function store(Request $request): RedirectResponse
    {
        $officeId = $this->currentOfficeId();
@@ -51,6 +53,7 @@ class AppointmentController extends Controller
            ->route('office.appointments')
            ->with('success', 'Appointment created successfully.');
    }
+   // Change appointment status (approve, cancel, etc.)
    public function updateStatus(Request $request, int $id): RedirectResponse
    {
        $officeId = $this->currentOfficeId();
@@ -65,6 +68,7 @@ class AppointmentController extends Controller
            ->route('office.appointments')
            ->with('success', 'Appointment status updated successfully.');
    }
+   // Send reminder email to citizen
    public function sendEmailReminder(int $id): RedirectResponse
    {
        $appointment = $this->appointmentForCurrentOffice($id);
@@ -82,38 +86,45 @@ class AppointmentController extends Controller
            ->route('office.appointments')
            ->with('success', 'Email reminder sent successfully.');
    }
+   // Create approval PDF file
    public function generateApprovalPDF(int $id)
    {
        $appointment = $this->appointmentForCurrentOffice($id);
        $pdf = Pdf::loadView('pdf.approval', compact('appointment'));
        return $pdf->download("appointment-{$appointment->id}-approval.pdf");
    }
+   // Create certificate pdf file
    public function generateCertificate(int $id)
    {
        $appointment = $this->appointmentForCurrentOffice($id);
        $pdf = Pdf::loadView('pdf.certificate', compact('appointment'));
        return $pdf->download("appointment-{$appointment->id}-certificate.pdf");
    }
+   // Create receipt pdf file
    public function generateReceipt(int $id)
    {
        $appointment = $this->appointmentForCurrentOffice($id);
        $pdf = Pdf::loadView('pdf.receipt', compact('appointment'));
        return $pdf->download("appointment-{$appointment->id}-receipt.pdf");
    }
+   // Get appointment for this office only
    private function appointmentForCurrentOffice(int $id): Appointment
    {
        return Appointment::with(['service', 'user', 'office'])
            ->where('office_id', $this->currentOfficeId())
            ->findOrFail($id);
    }
+   // Get citizen email for reminder
    private function reminderEmailAddress(Appointment $appointment): ?string
    {
        return $appointment->citizen_email ?: $appointment->user?->email;
    }
+   // Get citizen name for reminder email
    private function reminderRecipientName(Appointment $appointment): string
    {
        return $appointment->citizen_name ?: $appointment->user?->name ?: 'Citizen';
    }
+   // Create reminder email message
    private function reminderMessage(Appointment $appointment): string
    {
        $date = optional($appointment->appointment_date)->format('Y-m-d') ?? 'N/A';
@@ -121,6 +132,7 @@ class AppointmentController extends Controller
        $serviceName = $appointment->service->name ?? 'municipality service';
        return "Hello {$this->reminderRecipientName($appointment)}, this is a reminder for your {$serviceName} appointment on {$date} at {$time}.";
    }
+   // Get current office id
    private function currentOfficeId(): int
    {
        $user = auth()->user();

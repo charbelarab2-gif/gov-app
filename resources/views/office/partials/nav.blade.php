@@ -1,3 +1,4 @@
+<!-- Navigation menu for office dashboard -->
 <p>
     <a href="{{ route('office.dashboard') }}">Office Dashboard</a> |
     <a href="{{ url('/office/details') }}">Office Details</a> |

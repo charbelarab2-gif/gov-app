@@ -10,6 +10,7 @@ use Illuminate\View\View;
 
 class OfficeController extends Controller
 {
+    // Show all citizen requests for this office
     public function requests(): View
     {
         $requests = CitizenRequest::with(['user', 'service'])
@@ -21,7 +22,7 @@ class OfficeController extends Controller
 
         return view('office.requests', compact('requests'));
     }
-
+    // Update request status (approve, reject, etc.)
     public function updateRequestStatus(Request $request, int $id): RedirectResponse
     {
         $validated = $request->validate([
@@ -34,7 +35,7 @@ class OfficeController extends Controller
 
         return redirect()->back()->with('success', 'Request status updated successfully.');
     }
-
+    // Upload response document for request
     public function uploadResponseDocument(Request $request, int $id): RedirectResponse
     {
         $request->validate([
@@ -50,21 +51,21 @@ class OfficeController extends Controller
 
         return redirect()->back()->with('success', 'Response uploaded');
     }
-
+// Show office details page
     public function details(): View
     {
         $office = $this->currentOffice();
 
         return view('office.details', compact('office'));
     }
-
+// Show edit office details form
     public function editDetails(): View
     {
         $office = $this->currentOffice();
 
         return view('office.details', compact('office'));
     }
-
+// Update office details
     public function updateDetails(Request $request): RedirectResponse
     {
         $validated = $request->validate([
@@ -82,7 +83,7 @@ class OfficeController extends Controller
 
         return redirect('/office/details')->with('success', 'Office details updated successfully.');
     }
-
+// Get current logged-in office
     private function currentOffice(): Office
     {
         $user = auth()->user();
@@ -93,7 +94,7 @@ class OfficeController extends Controller
 
         return Office::findOrFail($officeId);
     }
-
+// Get request that belongs to this office only
     private function requestForCurrentOffice(int $id): CitizenRequest
     {
         return CitizenRequest::with(['user', 'service'])
