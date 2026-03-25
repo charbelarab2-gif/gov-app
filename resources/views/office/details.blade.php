@@ -1,11 +1,12 @@
+<!-- Office details form for updating office information -->
 @include('office.partials.nav')
 
 <h1>Office Details</h1>
-
+<!-- Display success message -->
 @if (session('success'))
     <p style="color: green;">{{ session('success') }}</p>
 @endif
-
+<!-- Display validation errors -->
 @if ($errors->any())
     <div style="color: red;">
         <ul>
@@ -15,7 +16,7 @@
         </ul>
     </div>
 @endif
-
+<!-- Form to update office details -->
 <form method="POST" action="/office/details">
     @csrf
 

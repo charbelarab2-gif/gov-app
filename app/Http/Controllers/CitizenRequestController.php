@@ -4,7 +4,7 @@ use Illuminate\Http\Request;
 use App\Models\CitizenRequest;
 class CitizenRequestController extends Controller
 {
-   // citizen sends request
+   // Citizen sends request
    public function store(Request $request)
    {
        $request->validate([
@@ -18,7 +18,7 @@ class CitizenRequestController extends Controller
        return redirect()->back()->with('success', 'Request Sent');
    }
 
-   // office view requests
+   // Office view requests
    public function officeIndex()
    {
        $requests = CitizenRequest::with(['service','user'])
@@ -27,7 +27,7 @@ class CitizenRequestController extends Controller
        return view('office.index', compact('requests'));
    }
 
-   // approve request
+   // Approve request
    public function approve($id)
    {
        $req = CitizenRequest::findOrFail($id);
@@ -36,7 +36,7 @@ class CitizenRequestController extends Controller
        return redirect()->back();
    }
 
-   // reject request
+   // Reject request
    public function reject($id)
    {
        $req = CitizenRequest::findOrFail($id);

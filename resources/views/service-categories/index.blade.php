@@ -1,3 +1,4 @@
+<!-- Display list of service categories -->
 @include('office.partials.nav')
 
 <h1>Service Categories</h1>

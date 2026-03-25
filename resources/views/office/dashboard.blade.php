@@ -1,3 +1,5 @@
+<!-- Office dashboard providing quick access to main office features and pages -->
+<!-- Include office navigation menu -->
 @include('office.partials.nav')
 
 <h1>Office Dashboard</h1>

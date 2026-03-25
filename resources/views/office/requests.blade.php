@@ -1,11 +1,12 @@
+<!-- Display incoming citizen requests with update and upload response options -->
 @include('office.partials.nav')
 
 <h1>Incoming Requests</h1>
-
+<!-- Display success message -->
 @if (session('success'))
     <p style="color: green;">{{ session('success') }}</p>
 @endif
-
+<!-- Display validation errors -->
 @if ($errors->any())
     <div style="color: red;">
         <ul>
@@ -25,6 +26,7 @@
         <th>Update Status</th>
         <th>Upload Response</th>
     </tr>
+    <!-- Loop through incoming requests -->
     @forelse ($requests as $req)
         <tr>
             <td>{{ $req->id }}</td>

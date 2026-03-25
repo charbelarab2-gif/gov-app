@@ -1,3 +1,4 @@
+<!-- Form for enabling and managing two-factor authentication (2FA) -->
 @php
     $twoFactorEnabled = ! is_null($user->two_factor_secret);
     $twoFactorConfirmed = ! is_null($user->two_factor_confirmed_at);

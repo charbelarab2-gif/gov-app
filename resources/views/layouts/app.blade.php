@@ -1,3 +1,4 @@
+<!-- Main application layout used for  authentication users pages -->
 <!DOCTYPE html>
 <html lang="en">
 <head>

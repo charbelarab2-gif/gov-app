@@ -8,8 +8,7 @@ use Laravel\Socialite\Facades\Socialite;
 
 class SocialAuthController extends Controller
 {
-    public function redirect($provider)
-    {
+  public function redirect($provider) {
         return Socialite::driver($provider)->redirect();
     }
 

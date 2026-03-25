@@ -1,3 +1,4 @@
+<!-- Form for editing service category -->
 @include('office.partials.nav')
 
 <h1>Edit Category</h1>

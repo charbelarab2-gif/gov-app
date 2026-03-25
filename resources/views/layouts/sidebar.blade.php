@@ -1,3 +1,4 @@
+<!-- Sidebar layout containing side navigation menu -->
 <ul class="nav flex-column">
     @auth
         @if(auth()->user()->role === 'admin')
