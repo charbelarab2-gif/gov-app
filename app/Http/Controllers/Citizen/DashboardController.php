@@ -6,8 +6,9 @@ use App\Http\Controllers\Controller;
 
 class DashboardController extends Controller
 {
-    public function index()
-    {
-        return view('citizen.dashboard');
-    }
+   // DashboardController.php
+public function index() {
+    $requests = ServiceRequest::where('user_id', auth()->id())->get();
+    return view('citizen.dashboard', compact('requests'));
+}
 }

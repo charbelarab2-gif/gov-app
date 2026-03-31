@@ -3,18 +3,22 @@
 namespace App\Http\Controllers\Citizen;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use App\Models\Service;
 
 class ServiceController extends Controller
 {
-    // list services
+    // List all services
     public function index()
     {
-        return view('citizen.services');
+        $services = Service::all();
+        return view('citizen.services', compact('services'));
     }
 
-    // service details
+    // Show a single service
     public function show($id)
     {
-        return view('citizen.service-details');
+        $service = Service::findOrFail($id);
+        return view('citizen.service-details', compact('service'));
     }
 }

@@ -12,38 +12,42 @@
 <hr>
 
 <h3>Services</h3>
-
-<a href="/citizen/services">Browse Services</a>
+<a href="{{ route('citizen.services') }}">Browse Services</a>
 
 <br><br>
 
 <h3>Requests</h3>
-
-<a href="/citizen/my-requests">My Requests</a>
+<a href="{{ route('citizen.my.requests') }}">My Requests</a>
 
 <br><br>
 
-<a href="/citizen/request/create/1">Submit New Request</a>
+<a href="{{ route('citizen.request.create', ['service' => 1]) }}">Submit New Request</a>
 
 <br><br>
 
 <h3>Tracking</h3>
-
-<a href="/citizen/track/1">Track Request (QR)</a>
+<!-- Example: track request with ID 1 -->
+<a href="{{ route('citizen.track', ['request' => 1]) }}">Track Request (QR)</a>
 
 <br><br>
 
 <h3>Payments</h3>
 
-<a href="/citizen/payment">Make Payment</a>
-
-<br><br>
-
+@if(isset($requests) && count($requests) > 0)
+    @foreach($requests as $request)
+        <p>{{ $request->service_name }} - Status: {{ $request->status }}</p>
+        <a href="{{ route('citizen.payment.form', ['requestId' => $request->id]) }}">
+            Make Payment
+        </a>
+    @endforeach
+@else
+    <p>No requests available to pay yet.</p>
+@endif
 <hr>
 
-<form method="POST" action="/citizen/logout">
-@csrf
-<button type="submit">Logout</button>
+<form method="POST" action="{{ route('citizen.logout') }}">
+    @csrf
+    <button type="submit">Logout</button>
 </form>
 
 </body>

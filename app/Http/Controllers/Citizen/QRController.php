@@ -6,8 +6,9 @@ use App\Http\Controllers\Controller;
 
 class QRController extends Controller
 {
-    public function generate($id)
-    {
-        return "QR Code for Request " . $id;
-    }
+    
+    public function track($id)
+{
+    return "Tracking request: ".$id;
+}
 }

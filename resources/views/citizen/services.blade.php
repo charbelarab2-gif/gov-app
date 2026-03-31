@@ -1,16 +1,24 @@
-<h1>Available Services</h1>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Services</title>
+</head>
+<body>
 
-@foreach($services as $service)
+<h1>Services</h1>
 
-<div>
-<h3>{{ $service->name }}</h3>
+@if($services->count())
+    <ul>
+    @foreach($services as $service)
+        <li>
+            <strong>{{ $service->name }}</strong> - ${{ $service->price }}
+            <a href="/citizen/services/{{ $service->id }}">View Details</a>
+        </li>
+    @endforeach
+    </ul>
+@else
+    <p>No services found.</p>
+@endif
 
-<p>Price: {{ $service->price }}</p>
-
-<a href="/services/{{ $service->id }}">View Details</a>
-
-</div>
-
-<hr>
-
-@endforeach
+</body>
+</html>

@@ -1,7 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ $service->name }} Details</title>
+</head>
+<body>
+
 <h1>{{ $service->name }}</h1>
+<p>Price: ${{ $service->price }}</p>
 
-<p>Price: {{ $service->price }}</p>
+<a href="/citizen/services">Back to all services</a>
 
-<p>Description: {{ $service->description }}</p>
-
-<a href="/request/create/{{ $service->id }}">Request This Service</a>
+</body>
+</html>
