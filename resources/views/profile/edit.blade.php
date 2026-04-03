@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+<!-- Main profile page that includes forms for updating profile, password, two-factor authentication, and deleting account -->
+>>>>>>> main
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
@@ -7,6 +11,17 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
+<<<<<<< HEAD
+=======
+            @if (auth()->user()->role === 'office')
+                <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+                    <div class="max-w-xl">
+                        <p><a href="{{ route('office.dashboard') }}">{{ __('Back to Office Dashboard') }}</a></p>
+                    </div>
+                </div>
+            @endif
+
+>>>>>>> main
             <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
                 <div class="max-w-xl">
                     @include('profile.partials.update-profile-information-form')
@@ -21,6 +36,15 @@
 
             <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
                 <div class="max-w-xl">
+<<<<<<< HEAD
+=======
+                    @include('profile.partials.two-factor-authentication-form')
+                </div>
+            </div>
+
+            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+                <div class="max-w-xl">
+>>>>>>> main
                     @include('profile.partials.delete-user-form')
                 </div>
             </div>

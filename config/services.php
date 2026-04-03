@@ -14,6 +14,23 @@ return [
     |
     */
 
+    'google' => [
+    'client_id' => env('GOOGLE_CLIENT_ID'),
+    'client_secret' => env('GOOGLE_CLIENT_SECRET'),
+    'redirect' => env('GOOGLE_REDIRECT_URL'),
+],
+'facebook' => [
+    'client_id' => env('FACEBOOK_CLIENT_ID'),
+    'client_secret' => env('FACEBOOK_CLIENT_SECRET'),
+    'redirect' => env('FACEBOOK_REDIRECT_URL'),
+],
+
+    'sms' => [
+        'gateway_url' => env('SMS_GATEWAY_URL'),
+        'token' => env('SMS_GATEWAY_TOKEN'),
+        'sender' => env('SMS_SENDER', 'GovApp'),
+    ],
+
     'postmark' => [
         'key' => env('POSTMARK_API_KEY'),
     ],
@@ -34,5 +51,11 @@ return [
             'channel' => env('SLACK_BOT_USER_DEFAULT_CHANNEL'),
         ],
     ],
+
+    'twilio' => [
+    'sid'   => env('TWILIO_SID'),
+    'token' => env('TWILIO_TOKEN'),
+    'from'  => env('TWILIO_FROM'),
+],
 
 ];

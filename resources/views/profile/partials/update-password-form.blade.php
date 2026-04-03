@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+<!-- Form for updating user password securely -->
+>>>>>>> main
 <section>
     <header>
         <h2 class="text-lg font-medium text-gray-900">
