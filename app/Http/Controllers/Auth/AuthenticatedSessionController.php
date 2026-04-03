@@ -30,11 +30,19 @@ class AuthenticatedSessionController extends Controller
     /**
      * Handle an incoming authentication request.
      */
-    public function store(LoginRequest $request)
+    public function store(LoginRequest $request): RedirectResponse
     {
-        return $this->loginPipeline($request)->then(function () {
-            return redirect()->intended(route('dashboard', absolute: false));
+        // Process login through Fortify pipeline
+        $this->loginPipeline($request)->then(function () use ($request) {
+            $request->session()->regenerate();
         });
+
+        // Role-based redirect
+        if (auth()->user()->role === 'admin') {
+            return redirect('/admin/dashboard');
+        }
+
+        return redirect()->intended(route('dashboard', absolute: false));
     }
 
     /**
@@ -45,12 +53,14 @@ class AuthenticatedSessionController extends Controller
         Auth::guard('web')->logout();
 
         $request->session()->invalidate();
-
         $request->session()->regenerateToken();
 
         return redirect('/');
     }
 
+    /**
+     * Build the Fortify login pipeline.
+     */
     protected function loginPipeline(LoginRequest $request): Pipeline
     {
         if (Fortify::$authenticateThroughCallback) {

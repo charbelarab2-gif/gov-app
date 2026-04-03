@@ -12,10 +12,13 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        // Register custom middleware aliases
         $middleware->alias([
+            'admin'  => \App\Http\Middleware\AdminMiddleware::class,
             'office' => \App\Http\Middleware\EnsureUserIsOffice::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
-    })->create();
+    })
+    ->create();

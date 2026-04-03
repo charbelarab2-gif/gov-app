@@ -10,12 +10,61 @@ use Illuminate\View\View;
 
 class OfficeController extends Controller
 {
-    // Show all citizen requests for this office
+    // -------------------------
+    // Admin Office CRUD methods
+    // -------------------------
+    
+    public function index(): View
+    {
+        $offices = Office::all();
+        return view('admin.offices.index', compact('offices'));
+    }
+
+    public function create(): View
+    {
+        return view('admin.offices.create');
+    }
+
+    public function store(Request $request): RedirectResponse
+    {
+        Office::create($request->all());
+        return redirect('/admin/offices');
+    }
+
+    public function edit($id): View
+    {
+        $office = Office::findOrFail($id);
+        return view('admin.offices.edit', compact('office'));
+    }
+
+    public function update(Request $request, $id): RedirectResponse
+    {
+        $office = Office::findOrFail($id);
+        $office->name = $request->name;
+        $office->municipality = $request->municipality;
+        $office->address = $request->address;
+        $office->save();
+
+        return redirect('/admin/offices');
+    }
+
+    public function destroy($id): RedirectResponse
+    {
+        Office::destroy($id);
+        return back();
+    }
+
+    // -------------------------
+    // Office user-specific methods
+    // -------------------------
+
+    // Show office map
     public function map(): View
     {
         return view('citizen.map');
     }
 
+    // Show all citizen requests for this office
     public function requests(): View
     {
         $requests = CitizenRequest::with(['user', 'service'])
@@ -27,6 +76,7 @@ class OfficeController extends Controller
 
         return view('office.requests', compact('requests'));
     }
+
     // Update request status (approve, reject, etc.)
     public function updateRequestStatus(Request $request, int $id): RedirectResponse
     {
@@ -40,6 +90,7 @@ class OfficeController extends Controller
 
         return redirect()->back()->with('success', 'Request status updated successfully.');
     }
+
     // Upload response document for request
     public function uploadResponseDocument(Request $request, int $id): RedirectResponse
     {
@@ -56,21 +107,22 @@ class OfficeController extends Controller
 
         return redirect()->back()->with('success', 'Response uploaded');
     }
-// Show office details page
+
+    // Show office details page
     public function details(): View
     {
         $office = $this->currentOffice();
-
         return view('office.details', compact('office'));
     }
-// Show edit office details form
+
+    // Show edit office details form
     public function editDetails(): View
     {
         $office = $this->currentOffice();
-
         return view('office.details', compact('office'));
     }
-// Update office details
+
+    // Update office details
     public function updateDetails(Request $request): RedirectResponse
     {
         $validated = $request->validate([
@@ -88,7 +140,12 @@ class OfficeController extends Controller
 
         return redirect('/office/details')->with('success', 'Office details updated successfully.');
     }
-// Get current logged-in office
+
+    // -------------------------
+    // Private helper methods
+    // -------------------------
+
+    // Get current logged-in office
     private function currentOffice(): Office
     {
         $user = auth()->user();
@@ -99,7 +156,8 @@ class OfficeController extends Controller
 
         return Office::findOrFail($officeId);
     }
-// Get request that belongs to this office only
+
+    // Get request that belongs to this office only
     private function requestForCurrentOffice(int $id): CitizenRequest
     {
         return CitizenRequest::with(['user', 'service'])
