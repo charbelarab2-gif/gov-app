@@ -1,7 +1,6 @@
-<<<<<<< HEAD
-=======
+
 <!-- Guest layout used for login and authentication pages -->
->>>>>>> main
+
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>

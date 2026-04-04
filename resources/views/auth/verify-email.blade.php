@@ -1,8 +1,7 @@
 <x-guest-layout>
-<<<<<<< HEAD
-=======
-    <!-- Message asking user to verify email -->
->>>>>>> main
+
+
+
     <div class="mb-4 text-sm text-gray-600">
         {{ __('Thanks for signing up! Before getting started, could you verify your email address by clicking on the link we just emailed to you? If you didn\'t receive the email, we will gladly send you another.') }}
     </div>
@@ -14,10 +13,9 @@
     @endif
 
     <div class="mt-4 flex items-center justify-between">
-<<<<<<< HEAD
-=======
+
         <!-- Form to resend verification email -->
->>>>>>> main
+
         <form method="POST" action="{{ route('verification.send') }}">
             @csrf
 
@@ -27,11 +25,9 @@
                 </x-primary-button>
             </div>
         </form>
-<<<<<<< HEAD
 
-=======
-<!-- Logout form -->
->>>>>>> main
+
+        <!-- Logout form -->
         <form method="POST" action="{{ route('logout') }}">
             @csrf
 
