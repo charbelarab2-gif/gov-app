@@ -1,7 +1,4 @@
-<<<<<<< HEAD
-=======
-<!-- Form for updating user profile information such as name and email -->
->>>>>>> main
+
 <section>
     <header>
         <h2 class="text-lg font-medium text-gray-900">

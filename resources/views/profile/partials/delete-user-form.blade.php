@@ -1,9 +1,7 @@
-<<<<<<< HEAD
+
 <section class="space-y-6">
-=======
-<!-- Form for deleting user account with password confirmation -->
-    <section class="space-y-6">
->>>>>>> main
+
+<section class="space-y-6">
     <header>
         <h2 class="text-lg font-medium text-gray-900">
             {{ __('Delete Account') }}
