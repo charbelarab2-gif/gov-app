@@ -23,9 +23,11 @@
 
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
 
-            <a href="/auth/google" class="btn btn-danger">Login with Google</a>
-            <a href="/auth/facebook" class="btn btn-primary">Login with Facebook</a>
-
+            <!-- Social login buttons -->
+            <div class="mt-2 flex gap-2">
+                <a href="/auth/google" class="btn btn-danger">Login with Google</a>
+                <a href="/auth/facebook" class="btn btn-primary">Login with Facebook</a>
+            </div>
         </div>
 
         <!-- Remember Me -->
@@ -47,5 +49,9 @@
                 {{ __('Log in') }}
             </x-primary-button>
         </div>
+
+        <p class="mt-4 text-sm">
+            Don't have an account? <a href="/register" class="underline text-indigo-600 hover:text-indigo-900">Register</a>
+        </p>
     </form>
 </x-guest-layout>
