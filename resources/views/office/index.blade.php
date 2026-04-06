@@ -13,30 +13,30 @@
 <tr>
 <td>{{ $req->id }}</td>
 <td>
-           {{ $req->user->name ?? $req->user_id }}
+{{ $req->user->name ?? $req->user_id }}
 </td>
 <td>
-           {{ $req->service->name ?? $req->service_id }}
+{{ $req->service->name ?? $req->service_id }}
 </td>
 <td>
-           {{ $req->status }}
+{{ $req->status }}
 </td>
 <td>
 <!-- Approve request -->
 <form action="/requests/{{ $req->id }}/approve" method="POST" style="display:inline;">
-               @csrf
+@csrf
 <button type="submit">Approve</button>
 </form>
 <!-- Reject request -->
 <form action="/requests/{{ $req->id }}/reject" method="POST" style="display:inline;">
-               @csrf
+@csrf
 <button type="submit">Reject</button>
 </form>
 </td>
 </tr>
-   @empty
+@empty
 <tr>
 <td colspan="5">No requests yet</td>
 </tr>
-   @endforelse
+@endforelse
 </table>
