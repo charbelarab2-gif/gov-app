@@ -31,20 +31,23 @@ class AuthenticatedSessionController extends Controller
      * Handle an incoming authentication request.
      */
     public function store(LoginRequest $request): RedirectResponse
-    {
-        // Process login through Fortify pipeline
-        $this->loginPipeline($request)->then(function () use ($request) {
-            $request->session()->regenerate();
-        });
-
-        // Role-based redirect
-        if (auth()->user()->role === 'admin') {
-            return redirect('/admin/dashboard');
+{
+    return $this->loginPipeline($request)->then(function () {
+        $user = Auth::user();
+ 
+        if (! $user) {
+            return redirect()->route('login')
+                ->withErrors(['email' => 'Login failed. Please try again.']);
         }
-
-        return redirect()->intended(route('dashboard', absolute: false));
-    }
-
+ 
+        return match ($user->role) {
+            'admin' => redirect('/admin/dashboard'),
+            'office' => redirect()->route('office.dashboard'),
+            default => redirect()->intended(route('dashboard', absolute: false)),
+        };
+    });
+}
+ 
     /**
      * Destroy an authenticated session.
      */
