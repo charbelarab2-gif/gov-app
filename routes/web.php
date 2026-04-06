@@ -28,7 +28,7 @@ Route::get('/', function () {
 
 Route::get('/dashboard', function () {
 
-    // ✅ ADDED FROM MAIN PROJECT
+    //  ADDED FROM MAIN PROJECT
     if (auth()->check() && auth()->user()->role === 'office') {
         return redirect('/office');
     }
@@ -46,13 +46,13 @@ Route::get('/auth/{provider}/callback', [SocialAuthController::class, 'callback'
 
 Route::middleware('auth')->group(function () {
 
-    // ✅ MAIN PROJECT FEATURES
+    //  MAIN PROJECT FEATURES
     Route::get('/map', [OfficeController::class, 'map'])->name('map');
     Route::get('/requests/{id}', [RequestController::class, 'show'])->name('requests.show');
     Route::get('/conversations/{conversation}', [ChatController::class, 'index'])->name('conversations.show');
     Route::post('/conversations/{conversation}/messages', [ChatController::class, 'send'])->name('conversations.messages.send');
 
-    // ✅ PROFILE (COMMON)
+    //  PROFILE (COMMON)
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
