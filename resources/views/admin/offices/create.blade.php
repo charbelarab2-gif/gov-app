@@ -9,7 +9,19 @@
 <br><br>
 
 <label>Municipality</label>
-<input type="text" name="municipality">
+
+<select name="municipality_id" required>
+    <option value="">-- Select Municipality --</option>
+
+    @foreach($municipalities as $m)
+        <option value="{{ $m->id }}">
+            {{ $m->name }}
+        </option>
+    @endforeach
+</select>
+<br><br>
+<label>Email</label>
+<input type="email" name="email" required>
 
 <br><br>
 

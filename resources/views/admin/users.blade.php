@@ -1,11 +1,18 @@
 <h1>Users</h1>
 
+
+
+<a href="/admin/users/create">
+    <button>Create New User</button>
+</a>
+
 <table border="1">
 
 <tr>
 <th>ID</th>
 <th>Name</th>
 <th>Email</th>
+<th>Role</th>
 <th>Status</th>
 <th>Action</th>
 </tr>
@@ -20,11 +27,13 @@
 
 <td>{{ $user->email }}</td>
 
-<td>{{ $user->status }}</td>
+<td>{{ $user->role }}</td>
+
+<td>{{ $user->is_active }}</td> <!-- FIXED -->
 
 <td>
 
-@if($user->status == 0)
+@if($user->is_active == 0) <!-- FIXED -->
 
 <form method="POST" action="/admin/users/{{ $user->id }}/activate">
 
@@ -43,7 +52,7 @@ Activate
 
 <td>
 
-@if($user->status == 0)
+@if($user->is_active == 0) <!-- FIXED -->
 
 <form method="POST" action="/admin/users/{{ $user->id }}/activate">
 @csrf

@@ -9,8 +9,16 @@
 <br><br>
 
 <label>Municipality</label>
-<br>
-<input type="text" name="municipality" value="{{ $office->municipality }}">
+
+<select name="municipality_id">
+    @foreach($municipalities as $m)
+        <option value="{{ $m->id }}"
+            @if($office->municipality_id == $m->id) selected @endif>
+            {{ $m->name }}
+        </option>
+    @endforeach
+</select>
+
 <br><br>
 
 <label>Address</label>

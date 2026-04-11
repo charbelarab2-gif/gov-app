@@ -7,6 +7,7 @@ use App\Models\Office;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use App\Models\Municipality;
 
 class OfficeController extends Controller
 {
@@ -20,33 +21,47 @@ class OfficeController extends Controller
         return view('admin.offices.index', compact('offices'));
     }
 
-    public function create(): View
-    {
-        return view('admin.offices.create');
-    }
+  
 
-    public function store(Request $request): RedirectResponse
-    {
-        Office::create($request->all());
-        return redirect('/admin/offices');
-    }
+public function create()
+{
+    $municipalities = Municipality::all();
 
-    public function edit($id): View
-    {
-        $office = Office::findOrFail($id);
-        return view('admin.offices.edit', compact('office'));
-    }
+    return view('admin.offices.create', compact('municipalities'));
+}
 
-    public function update(Request $request, $id): RedirectResponse
-    {
-        $office = Office::findOrFail($id);
-        $office->name = $request->name;
-        $office->municipality = $request->municipality;
-        $office->address = $request->address;
-        $office->save();
+public function store(Request $request): RedirectResponse
+{
+    Office::create([
+        'name' => $request->name,
+        'municipality_id' => $request->municipality_id,
+        'address' => $request->address,
+        'email' => $request->email, 
+    ]);
 
-        return redirect('/admin/offices');
-    }
+    return redirect('/admin/offices');
+}
+
+public function edit($id): View
+{
+    $office = Office::findOrFail($id);
+    $municipalities = Municipality::all();
+
+    return view('admin.offices.edit', compact('office','municipalities'));
+}
+
+public function update(Request $request, $id): RedirectResponse
+{
+    $office = Office::findOrFail($id);
+
+    $office->name = $request->name;
+    $office->municipality_id = $request->municipality_id; // FIXED
+    $office->address = $request->address;
+
+    $office->save();
+
+    return redirect('/admin/offices');
+}
 
     public function destroy($id): RedirectResponse
     {

@@ -15,7 +15,7 @@
 
 <tr>
 <td>{{ $office->name }}</td>
-<td>{{ $office->municipality }}</td>
+<td>{{ $office->municipality->name ?? 'N/A' }}</td>
 <td>{{ $office->address }}</td>
 
 <td>

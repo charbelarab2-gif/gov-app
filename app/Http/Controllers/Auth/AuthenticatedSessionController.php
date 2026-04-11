@@ -33,19 +33,27 @@ class AuthenticatedSessionController extends Controller
     public function store(LoginRequest $request): RedirectResponse
 {
     return $this->loginPipeline($request)->then(function () {
-        $user = Auth::user();
- 
-        if (! $user) {
-            return redirect()->route('login')
-                ->withErrors(['email' => 'Login failed. Please try again.']);
-        }
- 
-        return match ($user->role) {
-            'admin' => redirect('/admin/dashboard'),
-            'office' => redirect()->route('office.dashboard'),
-            default => redirect()->intended(route('dashboard', absolute: false)),
-        };
-    });
+
+    $user = Auth::user();
+
+    if (! $user) {
+        return redirect()->route('login')
+            ->withErrors(['email' => 'Login failed. Please try again.']);
+    }
+
+    // 🔴 ADD THIS BLOCK
+    if ($user->is_active == 0) {
+        Auth::logout();
+        return redirect()->route('login')
+            ->withErrors(['email' => 'Your account has been deactivated by admin.']);
+    }
+
+    return match ($user->role) {
+        'admin' => redirect('/admin/dashboard'),
+        'office' => redirect()->route('office.dashboard'),
+        default => redirect()->intended(route('dashboard', absolute: false)),
+    };
+});
 }
  
     /**

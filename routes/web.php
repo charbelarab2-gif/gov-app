@@ -11,7 +11,6 @@ use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\SocialAuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\ServiceRequestController;
 use App\Models\Office;
 
 /* ===================== REQUEST ROUTES ===================== */
@@ -48,7 +47,7 @@ Route::middleware('auth')->group(function () {
 
     //  MAIN PROJECT FEATURES
     Route::get('/map', [OfficeController::class, 'map'])->name('map');
-    Route::get('/requests/{id}', [RequestController::class, 'show'])->name('requests.show');
+    Route::get('/requests/{id}', [CitizenRequestController::class, 'show'])->name('requests.show');
     Route::get('/conversations/{conversation}', [ChatController::class, 'index'])->name('conversations.show');
     Route::post('/conversations/{conversation}/messages', [ChatController::class, 'send'])->name('conversations.messages.send');
 
@@ -78,19 +77,33 @@ Route::middleware('auth')->group(function () {
         Route::get('/admin/users',[AdminController::class,'users']);
         Route::post('/admin/users/{id}/activate',[AdminController::class,'activate']);
         Route::post('/admin/users/{id}/deactivate',[AdminController::class,'deactivate']);
+        Route::get('/admin/users/create',[AdminController::class,'createUser']);
+        Route::post('/admin/users',[AdminController::class,'storeUser']); 
+
+     Route::get('/admin/manage',[AdminController::class,'manageServices']);
+    Route::post('/admin/services/category',[AdminController::class,'storeCategory']);
+    Route::post('/admin/services',[AdminController::class,'storeService']);
+    Route::post('/admin/category/{id}/delete', [AdminController::class, 'deleteCategory']);
+Route::post('/admin/service/{id}/delete', [AdminController::class, 'deleteService']);
+  Route::get('/admin/category/{id}/edit', [AdminController::class, 'editCategory']);
+Route::post('/admin/category/{id}/update', [AdminController::class, 'updateCategory']);
+
+Route::get('/admin/service/{id}/edit', [AdminController::class, 'editService']);
+Route::post('/admin/service/{id}/update', [AdminController::class, 'updateService']);
+        
 
     });
 
     /* ===================== USER REQUEST (YOUR PART) ===================== */
 
-    Route::get('/request', function(){
+   Route::get('/request', function(){
+    $offices = \App\Models\Office::all();
+    $categories = \App\Models\ServiceCategory::all();
+    $services = \App\Models\Service::all();
 
-        $offices = Office::all();
-        return view('member.request',compact('offices'));
-
-    });
-
-    Route::post('/request',[ServiceRequestController::class,'store']);
+    return view('member.request', compact('offices','categories','services'));
+});
+    Route::post('/request',[CitizenRequestController::class,'store']);
 
     /* ===================== OFFICE ROUTES (MAIN PROJECT) ===================== */
 

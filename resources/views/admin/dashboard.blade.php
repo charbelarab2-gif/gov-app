@@ -19,6 +19,7 @@
 <ul>
 <li><a href="/admin/dashboard">Dashboard</a></li>
 <li><a href="/admin/offices">Manage Offices</a></li>
+<li><a href="/admin/manage">Manage</a></li>
 <li><a href="/admin/users">Manage Users</a></li>
 <li><a href="/admin/requests">Service Requests</a></li>
 <li><a href="/admin/reports">Reports</a></li>
