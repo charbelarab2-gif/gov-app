@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Models\ServiceRequest; // for service requests
+use App\Models\Municipality;
 
 class Office extends Model
 {
@@ -54,4 +55,9 @@ class Office extends Model
     {
         return $this->hasMany(Appointment::class);
     }
+
+    public function municipality()
+{
+    return $this->belongsTo(Municipality::class);
+}
 }

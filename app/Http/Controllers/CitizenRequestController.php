@@ -44,4 +44,13 @@ class CitizenRequestController extends Controller
        $req->save();
        return redirect()->back();
    }
+
+   public function show($id)
+{
+    $request = CitizenRequest::with('user','service')->findOrFail($id);
+    return view('requests.show', compact('request'));
+}   
+
+
+
 }

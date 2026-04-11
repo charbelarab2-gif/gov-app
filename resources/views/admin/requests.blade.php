@@ -19,15 +19,15 @@
 
 <td>{{ $request->user->name }}</td>
 
-<td>{{ $request->office->name }}</td>
+<td>{{ $request->service->office->name }}</td>
 
-<td>{{ $request->title }}</td>
+<td>{{ $request->service->name }}</td>
 
 <td>{{ $request->status }}</td>
 
 <td>
 
-@if($request->status == 'Pending')
+@if($request->status == 'pending')
 
 <form method="POST" action="/admin/requests/{{ $request->id }}/approve">
 @csrf

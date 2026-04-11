@@ -1,20 +1,42 @@
-<form method="POST" action="/request">
+<form method="POST" action="{{ route('requests.store') }}">
 @csrf
 
+<!-- OFFICE -->
 <select name="office_id">
-
-@foreach($offices as $office)
-<option value="{{ $office->id }}">
-{{ $office->name }}
-</option>
-@endforeach
-
+    <option value="">Select Office</option>
+    @foreach($offices as $office)
+        <option value="{{ $office->id }}">
+            {{ $office->name }}
+        </option>
+    @endforeach
 </select>
 
-<input type="text" name="service" placeholder="Service name">
+<br><br>
 
-<button type="submit">
-Submit
-</button>
+<!-- CATEGORY -->
+<select name="category_id">
+    <option value="">Select Category</option>
+    @foreach($categories as $category)
+        <option value="{{ $category->id }}">
+            {{ $category->name }}
+        </option>
+    @endforeach
+</select>
+
+<br><br>
+
+<!-- SERVICE -->
+<select name="service_id">
+    <option value="">Select Service</option>
+    @foreach($services as $service)
+        <option value="{{ $service->id }}">
+            {{ $service->name }}
+        </option>
+    @endforeach
+</select>
+
+<br><br>
+
+<button type="submit">Submit</button>
 
 </form>
