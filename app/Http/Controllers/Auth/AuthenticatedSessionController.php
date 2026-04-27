@@ -41,7 +41,7 @@ class AuthenticatedSessionController extends Controller
             ->withErrors(['email' => 'Login failed. Please try again.']);
     }
 
-    // 🔴 ADD THIS BLOCK
+    
     if ($user->is_active == 0) {
         Auth::logout();
         return redirect()->route('login')
