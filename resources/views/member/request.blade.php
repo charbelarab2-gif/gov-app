@@ -1,3 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<style>
+body{
+    font-family: Arial;
+    background: #f4f4f4;
+    margin: 0;
+}
+
+.container{
+    width: 60%;
+    margin: 50px auto;
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+select{
+    width: 100%;
+    padding: 8px;
+    margin: 5px 0 15px 0;
+}
+
+button{
+    padding: 10px 15px;
+    background: #333;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+br{
+    display: none;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
 <form method="POST" action="{{ route('requests.store') }}">
 @csrf
 
@@ -40,3 +84,8 @@
 <button type="submit">Submit</button>
 
 </form>
+
+</div>
+
+</body>
+</html>

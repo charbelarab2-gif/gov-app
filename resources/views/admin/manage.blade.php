@@ -1,3 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+body{
+    font-family: Arial;
+    background: #f4f4f4;
+    margin: 0;
+}
+
+.container{
+    width: 85%;
+    margin: 40px auto;
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+input, select{
+    width: 100%;
+    padding: 8px;
+    margin: 5px 0 15px 0;
+}
+
+button{
+    padding: 8px 12px;
+    background: #333;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+table{
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+th, td{
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+h1, h2{
+    margin-top: 20px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
 <h1>Manage Services</h1>
 
 <h2>Create Category</h2>
@@ -113,3 +167,8 @@
 </tr>
 @endforeach
 </table>
+
+</div>
+
+</body>
+</html>

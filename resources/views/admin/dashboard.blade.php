@@ -2,12 +2,39 @@
 <html>
 <head>
 <title>Admin Dashboard</title>
+
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+body{
+    background:#f4f4f4;
+}
+
+.container-box{
+    background:white;
+    padding:20px;
+    border-radius:5px;
+    margin-top:20px;
+}
+
+ul{
+    padding-left: 20px;
+}
+
+ul li{
+    margin-bottom: 5px;
+}
+
+.card{
+    margin-bottom: 15px;
+}
+</style>
+
 </head>
 
 <body>
 
-<div class="container mt-5">
+<div class="container mt-5 container-box">
 
 <h1>Admin Dashboard</h1>
 
@@ -61,8 +88,10 @@
 
 </div>
 
-<div class="container mt-5">
+<div class="container mt-5 container-box">
+
 <canvas id="requestsChart"></canvas>
+
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
