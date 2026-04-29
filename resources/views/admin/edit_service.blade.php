@@ -1,3 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<style>
+body{
+    font-family: Arial;
+    background: #f4f4f4;
+    margin: 0;
+}
+
+.container{
+    width: 70%;
+    margin: 40px auto;
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+input, select{
+    width: 100%;
+    padding: 8px;
+    margin: 5px 0 15px 0;
+}
+
+button{
+    padding: 10px 15px;
+    background: #333;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
 <h1>Edit Service</h1>
 
 <form method="POST" action="/admin/service/{{ $service->id }}/update">
@@ -28,6 +68,10 @@
 </select>
 
 <button type="submit">Update Service</button>
+
 </form>
 
+</div>
 
+</body>
+</html>

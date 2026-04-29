@@ -1,6 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<style>
+body{
+    font-family: Arial;
+    background: #f4f4f4;
+    margin: 0;
+}
+
+.container{
+    width: 85%;
+    margin: 40px auto;
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+table{
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+th, td{
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+button{
+    padding: 6px 10px;
+    background: #333;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+a button{
+    margin-bottom: 10px;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
 <h1>Users</h1>
-
-
 
 <a href="/admin/users/create">
     <button>Create New User</button>
@@ -75,3 +123,8 @@ Activate
 @endforeach 
 
 </table>
+
+</div>
+
+</body>
+</html>
