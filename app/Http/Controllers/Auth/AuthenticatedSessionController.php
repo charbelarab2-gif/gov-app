@@ -30,13 +30,32 @@ class AuthenticatedSessionController extends Controller
     /**
      * Handle an incoming authentication request.
      */
-    public function store(LoginRequest $request)
-    {
-        return $this->loginPipeline($request)->then(function () {
-            return redirect()->intended(route('dashboard', absolute: false));
-        });
+    public function store(LoginRequest $request): RedirectResponse
+{
+    return $this->loginPipeline($request)->then(function () {
+
+    $user = Auth::user();
+
+    if (! $user) {
+        return redirect()->route('login')
+            ->withErrors(['email' => 'Login failed. Please try again.']);
     }
 
+    
+    if ($user->is_active == 0) {
+        Auth::logout();
+        return redirect()->route('login')
+            ->withErrors(['email' => 'Your account has been deactivated by admin.']);
+    }
+
+    return match ($user->role) {
+        'admin' => redirect('/admin/dashboard'),
+        'office' => redirect()->route('office.dashboard'),
+        default => redirect()->intended(route('dashboard', absolute: false)),
+    };
+});
+}
+ 
     /**
      * Destroy an authenticated session.
      */
@@ -45,12 +64,14 @@ class AuthenticatedSessionController extends Controller
         Auth::guard('web')->logout();
 
         $request->session()->invalidate();
-
         $request->session()->regenerateToken();
 
         return redirect('/');
     }
 
+    /**
+     * Build the Fortify login pipeline.
+     */
     protected function loginPipeline(LoginRequest $request): Pipeline
     {
         if (Fortify::$authenticateThroughCallback) {
