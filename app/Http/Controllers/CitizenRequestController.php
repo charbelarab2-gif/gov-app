@@ -2,22 +2,40 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\CitizenRequest;
+use App\Models\Service;
 class CitizenRequestController extends Controller
 {
    // Citizen sends request
-   public function store(Request $request)
-   {
-       $request->validate([
-           'service_id' => 'required|exists:services,id',
-       ]);
-       CitizenRequest::create([
-           'user_id' => auth()->id(),
-           'service_id' => $request->service_id,
-           'status' => 'pending',
-       ]);
-       return redirect()->back()->with('success', 'Request Sent');
-   }
+public function store(Request $request)
+{
+    $request->validate([
+        'service_id' => 'required|exists:services,id',
+        'description' => 'required',
+        'document' => 'nullable|file'
+    ]);
 
+    $filePath = null;
+
+    // ✅ SAVE FILE CORRECTLY
+    if ($request->hasFile('document')) {
+        $filePath = $request->file('document')->store('documents', 'public');
+    }
+ CitizenRequest::create([
+        'user_id' => auth()->id(),
+        'service_id' => $request->service_id,
+        'description' => $request->description,
+        'status' => 'pending',
+        'response_document' => $filePath, 
+    ]);
+
+    return redirect('/services')->with('success', 'Request Sent');
+}
+public function create($id)
+{
+    $service = Service::findOrFail($id);
+
+    return view('citizen.requests.create', compact('service'));
+}
    // Office view requests
    public function officeIndex()
    {
@@ -44,13 +62,25 @@ class CitizenRequestController extends Controller
        $req->save();
        return redirect()->back();
    }
-
    public function show($id)
 {
-    $request = CitizenRequest::with('user','service')->findOrFail($id);
-    return view('requests.show', compact('request'));
-}   
+    $request = CitizenRequest::with('service')
+        ->where('user_id', auth()->id())
+        ->findOrFail($id);
 
+    return view('citizen.requests.show', compact('request'));
+}
+public function index(Request $request)
+{
+    $query = CitizenRequest::with('service')
+        ->where('user_id', auth()->id());
 
+    if ($request->status) {
+        $query->where('status', $request->status);
+    }
 
+    $requests = $query->latest()->get();
+
+    return view('citizen.requests.index', compact('requests'));
+}
 }
