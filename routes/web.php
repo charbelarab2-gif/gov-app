@@ -153,7 +153,7 @@ Route::post('/admin/service/{id}/update', [AdminController::class, 'updateServic
 });
 Route::middleware(['auth', 'isCitizen'])->group(function () {
 
-    Route::get('/services', [CitizenServiceController::class, 'index']);
+    Route::get('/citizen/services', [CitizenServiceController::class, 'index']);
  Route::get('/citizen/request/{id}', [CitizenRequestController::class, 'create']);
  Route::get('/my-requests/{id}', [CitizenRequestController::class, 'show']);
  Route::get('/my-requests', [CitizenRequestController::class, 'index']);
