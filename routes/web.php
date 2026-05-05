@@ -10,7 +10,8 @@ use App\Http\Controllers\ServiceCategoryController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\SocialAuthController;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\CitizenController;
+use App\Http\Controllers\CitizenServiceController;
 Route::post('/requests', [CitizenRequestController::class, 'store'])->name('requests.store');
 Route::post('/requests/{id}/approve', [CitizenRequestController::class, 'approve']);
 Route::post('/requests/{id}/reject', [CitizenRequestController::class, 'reject']);
@@ -39,7 +40,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-
+    
     Route::middleware('office')->group(function () {
         Route::get('/office', function () {
             return view('office.dashboard');
@@ -76,6 +77,21 @@ Route::middleware('auth')->group(function () {
         Route::get('/office/appointments/{id}/certificate-pdf', [AppointmentController::class, 'generateCertificate'])->name('office.appointments.certificate');
         Route::get('/office/appointments/{id}/receipt-pdf', [AppointmentController::class, 'generateReceipt'])->name('office.appointments.receipt');
     });
+    Route::middleware(['auth', 'isCitizen'])->group(function () {
+
+    Route::get('/citizen/dashboard', [CitizenController::class, 'dashboard']);
+
+});
+Route::middleware(['auth', 'isCitizen'])->group(function () {
+
+    Route::get('/services', [CitizenServiceController::class, 'index']);
+ Route::get('/citizen/request/{id}', [CitizenRequestController::class, 'create']);
+ Route::get('/my-requests/{id}', [CitizenRequestController::class, 'show']);
+ Route::get('/my-requests', [CitizenRequestController::class, 'index']);
+ 
+});
+ 
+
 });
 
 require __DIR__.'/auth.php';

@@ -9,6 +9,8 @@ class CitizenRequest extends Model
        'user_id',
        'service_id',
        'status',
+       'description',
+       'response_document',
    ];
    // Request belongs to a user
    public function user()

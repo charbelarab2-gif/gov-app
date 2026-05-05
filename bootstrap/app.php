@@ -14,6 +14,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias([
             'office' => \App\Http\Middleware\EnsureUserIsOffice::class,
+            'isCitizen' => \App\Http\Middleware\IsCitizen::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
