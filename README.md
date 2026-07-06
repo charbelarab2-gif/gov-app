@@ -1,59 +1,260 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Government E-Services Platform
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A web-based Government E-Services Platform developed using **Laravel** to digitize government services and improve communication between citizens, municipalities, and administrators.
 
-## About Laravel
+The platform allows citizens to submit service requests online, municipalities to process and manage requests efficiently, and administrators to oversee the entire system through a centralized dashboard.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+This project was developed as a **team project by four students** as part of a university software engineering course.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+---
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+# Technologies Used
 
-## Learning Laravel
+- Laravel
+- PHP
+- MySQL
+- Blade
+- HTML5
+- CSS3
+- Bootstrap
+- JavaScript
+- Chart.js
+- Laravel Breeze Authentication
+- Two-Factor Authentication (2FA)
+- Google Maps API
+- Social Login
+- Git & GitHub
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+---
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+# Project Features
 
-## Laravel Sponsors
+## Authentication & Security
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+- Email & Password Authentication
+- Social Login
+- Two-Factor Authentication (2FA)
+- Role-Based Authorization
+- Account Activation / Deactivation
+- Middleware Protection
+- Session Management
 
-### Premium Partners
+---
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+## Administrator Module
 
-## Contributing
+The administrator has complete control over the platform.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Features include:
 
-## Code of Conduct
+### Dashboard
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+- View system statistics
+- Total users
+- Total government offices
+- Total service requests
+- Charts using Chart.js
 
-## Security Vulnerabilities
+### Office Management
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+- Create offices
+- Edit offices
+- Delete offices
+- Assign offices to municipalities
 
-## License
+### User Management
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+- Create municipality users
+- Activate user accounts
+- Deactivate user accounts
+- Manage citizen and municipality users
+
+### Service Management
+
+- Create service categories
+- Edit service categories
+- Delete service categories
+- Create services
+- Edit services
+- Delete services
+
+### Request Management
+
+- View all submitted requests
+- Approve requests
+- Reject requests
+- Monitor request status
+
+### Reports & Analytics
+
+- Total Requests
+- Approved Requests
+- Pending Requests
+- Rejected Requests
+- Requests Per Office
+- Revenue Per Office
+
+---
+
+## Municipality (Government Office)
+
+- Login
+- Two-Factor Authentication
+- Manage office information
+- Manage services
+- Manage categories
+- Process citizen requests
+- Update request status
+- Upload official documents
+- Chat with citizens
+- Appointment management
+- QR Code tracking
+- Customer feedback
+- Live notifications
+
+---
+
+## Citizen Module
+
+- Register using Email or Social Login
+- Two-Factor Authentication
+- Browse services
+- Submit requests
+- Upload required documents
+- Track request status
+- Google Maps office search
+- Appointment booking
+- Online payment support
+- Download certificates
+- View request history
+- Rate services
+- Chat with municipalities
+- Notifications
+
+---
+
+# APIs Used
+
+- Google Maps API
+- Social Authentication APIs
+
+---
+
+# Security
+
+- Laravel Authentication
+- Laravel Breeze
+- Two-Factor Authentication (2FA)
+- Middleware Authorization
+- CSRF Protection
+- Password Hashing
+- Session Authentication
+
+---
+
+# Project Architecture
+
+The application follows the Laravel MVC architecture.
+
+```
+Browser
+        │
+        ▼
+Routes (web.php)
+        │
+        ▼
+Middleware
+        │
+        ▼
+Controllers
+        │
+        ▼
+Models
+        │
+        ▼
+MySQL Database
+        │
+        ▼
+Controllers
+        │
+        ▼
+Blade Views
+        │
+        ▼
+Browser
+```
+
+---
+
+# Team
+
+This project was developed collaboratively by **four students**.
+
+### My Contribution
+
+I was primarily responsible for the **Administrator Module**, including:
+
+- Admin Dashboard
+- Office Management (CRUD)
+- User Management
+- User Activation / Deactivation
+- Service Management
+- Category Management
+- Request Approval & Rejection
+- Reports & Analytics
+- Dashboard Charts (Chart.js)
+- Admin Middleware
+- Admin Routes
+- Admin Blade Views
+- Integration of authentication and authorization features within the admin module
+
+The remaining modules—including Municipality features, Citizen features, authentication enhancements such as Two-Factor Authentication (2FA), chat, maps, appointments, notifications, QR tracking, and other platform components—were developed collaboratively with my teammates.
+
+---
+
+# Development Requirements
+
+The project satisfies the following requirements:
+
+- Laravel Framework
+- MySQL Database
+- Bootstrap Frontend
+- Git Version Control
+- Modular MVC Architecture
+- Secure Authentication
+- Two-Factor Authentication (2FA)
+- Google Maps Integration
+- Social Login
+- Reporting & Analytics
+- CRUD Operations
+- Role-Based Access Control
+
+---
+
+# Installation
+
+```bash
+git clone https://github.com/charbelarab2-gif/gov-app.git
+
+cd gov-app
+
+composer install
+
+cp .env.example .env
+
+php artisan key:generate
+
+php artisan migrate
+
+npm install
+
+npm run dev
+
+php artisan serve
+```
+
+---
+
+# Repository
+
+https://github.com/charbelarab2-gif/gov-app
